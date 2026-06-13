@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — Luminae</title>
+  <meta name="description" content="Toutes les réponses à vos questions sur les produits Luminae, la livraison, les retours et la sécurité des paiements." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ══════════════════════════════════════════════════════
+       SHARED DESIGN SYSTEM
+    ══════════════════════════════════════════════════════ */
+    :root {
+      --brand:        #C8A97E;
+      --brand-dark:   #8C6A47;
+      --brand-light:  #F5EFE6;
+      --neutral-900:  #1A1109;
+      --neutral-600:  #6B5744;
+      --neutral-100:  #FAF7F4;
+      --white:        #FFFFFF;
+      --sp-1: 8px; --sp-2: 16px; --sp-3: 24px; --sp-4: 32px;
+      --sp-6: 48px; --sp-8: 64px; --sp-12: 96px;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+      --transition:   200ms ease;
+      --radius-sm: 8px; --radius-md: 16px; --radius-lg: 24px; --radius-full: 9999px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html  { scroll-behavior: smooth; }
+    body  { font-family: var(--font-body); color: var(--neutral-900); background: var(--white); line-height: 1.6; overflow-x: hidden; }
+    a     { text-decoration: none; color: inherit; }
+    ul    { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font-family: var(--font-body); }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--sp-3); }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; background: var(--brand); color: var(--white);
+      border-radius: var(--radius-full); font-weight: 500; font-size: 0.93rem;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .btn-primary:hover { background: var(--brand-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200,169,126,.4); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 28px; background: transparent; color: var(--neutral-900);
+      border: 1.5px solid rgba(26,17,9,.3); border-radius: var(--radius-full);
+      font-weight: 500; font-size: 0.93rem;
+      transition: border-color var(--transition), color var(--transition), background var(--transition), transform var(--transition);
+    }
+    .btn-ghost:hover { border-color: var(--brand); color: var(--brand-dark); background: rgba(200,169,126,.07); transform: translateY(-2px); }
+
+    /* Section label */
+    .section-label {
+      display: inline-flex; align-items: center; gap: var(--sp-2);
+      font-size: 0.72rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--brand-dark); margin-bottom: var(--sp-1);
+    }
+    .section-label::before, .section-label::after { content: ''; display: block; width: 28px; height: 1.5px; background: var(--brand); opacity: .55; }
+
+    /* Scroll-reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: .1s; }
+    .reveal-d2 { transition-delay: .2s; }
+    .reveal-d3 { transition-delay: .3s; }
+
+    /* ══════════════════════════════════════════════════════
+       NAVBAR
+    ══════════════════════════════════════════════════════ */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 18px 0;
+      transition: background .3s, backdrop-filter .3s, box-shadow .3s, padding .3s;
+    }
+    .navbar.scrolled {
+      padding: 12px 0;
+      background: rgba(255,255,255,.93);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 rgba(0,0,0,.06);
+    }
+    .navbar__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); }
+    .navbar__logo { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; letter-spacing: .02em; color: var(--neutral-900); }
+    .navbar__logo span { color: var(--brand); }
+
+    .navbar__links { display: flex; align-items: center; gap: var(--sp-4); }
+    .navbar__links a {
+      font-size: 0.88rem; font-weight: 500; color: var(--neutral-600);
+      position: relative; transition: color var(--transition);
+    }
+    .navbar__links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1.5px; background: var(--brand); transition: width var(--transition); }
+    .navbar__links a:hover, .navbar__links a.nav-active { color: var(--neutral-900); }
+    .navbar__links a.nav-active::after { width: 100%; }
+    .navbar__links a:hover::after { width: 100%; }
+    .navbar__cta { padding: 10px 22px; font-size: 0.86rem; }
+
+    .navbar__burger { display: none; flex-direction: column; gap: 5px; padding: 6px; }
+    .navbar__burger span { display: block; width: 22px; height: 2px; background: var(--neutral-900); border-radius: 2px; transition: transform var(--transition), opacity var(--transition); }
+    .navbar__burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .navbar__burger.open span:nth-child(2) { opacity: 0; }
+    .navbar__burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .navbar__drawer {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99;
+      background: rgba(255,255,255,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: var(--sp-3);
+      opacity: 0; pointer-events: none; transition: opacity .25s ease;
+    }
+    .navbar__drawer.open { opacity: 1; pointer-events: all; }
+    .navbar__drawer a { font-family: var(--font-heading); font-size: 2rem; color: var(--neutral-900); transition: color var(--transition); }
+    .navbar__drawer a.nav-active { color: var(--brand-dark); }
+    .navbar__drawer a:hover { color: var(--brand-dark); }
+    .navbar__drawer .btn-primary { font-family: var(--font-body); font-size: 0.95rem; margin-top: var(--sp-2); }
+
+    @media (max-width: 768px) {
+      .navbar__links, .navbar__cta { display: none; }
+      .navbar__burger { display: flex; }
+    }
+
+    /* ══════════════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════════════ */
+    footer { background: var(--neutral-900); color: rgba(255,255,255,.65); padding: var(--sp-8) 0 0; }
+    .footer__grid {
+      display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--sp-6);
+      padding-bottom: var(--sp-8); border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .footer__logo { font-family: var(--font-heading); font-size: 1.55rem; font-weight: 700; color: var(--white); letter-spacing: .02em; display: block; margin-bottom: var(--sp-1); }
+    .footer__logo span { color: var(--brand); }
+    .footer__tagline { font-style: italic; font-size: .85rem; color: rgba(255,255,255,.45); margin-bottom: var(--sp-3); }
+    .footer__socials { display: flex; gap: var(--sp-2); }
+    .footer__socials a {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,.07); color: rgba(255,255,255,.55);
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition), color var(--transition);
+    }
+    .footer__socials a:hover { background: var(--brand); color: var(--white); }
+    .footer__col-title { font-family: var(--font-heading); font-size: .97rem; font-weight: 600; color: var(--white); margin-bottom: var(--sp-3); }
+    .footer__links { display: flex; flex-direction: column; gap: var(--sp-1); }
+    .footer__links a { font-size: .855rem; color: rgba(255,255,255,.5); transition: color var(--transition); }
+    .footer__links a:hover { color: var(--brand); }
+    .footer__bottom { text-align: center; padding: var(--sp-3) 0; font-size: .78rem; color: rgba(255,255,255,.3); }
+    @media (max-width: 900px) { .footer__grid { grid-template-columns: 1fr 1fr; gap: var(--sp-4); } }
+    @media (max-width: 480px) { .footer__grid { grid-template-columns: 1fr; } }
+
+    /* ══════════════════════════════════════════════════════
+       CHATBOT WIDGET
+    ══════════════════════════════════════════════════════ */
+    .chat-btn {
+      position: fixed; bottom: var(--sp-3); right: var(--sp-3); z-index: 200;
+      display: flex; align-items: center; gap: 9px; padding: 13px 20px;
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+      color: var(--white); border-radius: var(--radius-full);
+      font-size: .875rem; font-weight: 500;
+      box-shadow: 0 4px 22px rgba(200,169,126,.5);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .chat-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,169,126,.6); }
+    .chat-btn__dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:.7;transform:scale(1.2);} }
+    .chat-btn__dot { animation: pulse 2s infinite; }
+
+    .chatbot-panel {
+      position: fixed; bottom: 88px; right: var(--sp-3); z-index: 200;
+      width: 380px; height: 520px; background: var(--white); border-radius: var(--radius-lg);
+      box-shadow: 0 20px 60px rgba(0,0,0,.15), 0 0 0 1px rgba(200,169,126,.12);
+      display: flex; flex-direction: column; overflow: hidden;
+      opacity: 0; pointer-events: none;
+      transform: translateY(16px) scale(.96); transform-origin: bottom right;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .chatbot-panel.open { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
+    .chatbot-panel__hdr {
+      padding: 14px var(--sp-3);
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+      color: var(--white); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .chatbot-panel__hdr-l { display: flex; align-items: center; gap: var(--sp-2); }
+    .chatbot-av { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .chatbot-panel__name   { font-weight: 600; font-size: .92rem; }
+    .chatbot-panel__status { font-size: .72rem; opacity: .85; }
+    .chat-close {
+      width: 27px; height: 27px; border-radius: 50%; background: rgba(255,255,255,.18); color: var(--white);
+      display: flex; align-items: center; justify-content: center; transition: background var(--transition);
+    }
+    .chat-close:hover { background: rgba(255,255,255,.3); }
+    #chatbot-messages {
+      flex: 1; overflow-y: auto; padding: var(--sp-3); background: #FAFAFA;
+      display: flex; flex-direction: column; gap: var(--sp-2);
+    }
+    .chat-welcome { text-align: center; padding: var(--sp-4) var(--sp-2); }
+    .chat-welcome__emoji { font-size: 2rem; margin-bottom: var(--sp-2); }
+    .chat-welcome__text { font-size: .865rem; color: var(--neutral-600); line-height: 1.6; }
+    .chat-welcome__text strong { display: block; color: var(--neutral-900); font-weight: 600; margin-bottom: 4px; }
+    .chatbot-panel__ftr {
+      padding: var(--sp-2); border-top: 1px solid rgba(0,0,0,.06);
+      display: flex; gap: var(--sp-1); background: var(--white); flex-shrink: 0;
+    }
+    #chatbot-input {
+      flex: 1; padding: 10px 14px;
+      border: 1.5px solid rgba(200,169,126,.3); border-radius: var(--radius-full);
+      font-family: var(--font-body); font-size: .875rem; color: var(--neutral-900);
+      background: var(--neutral-100); outline: none; transition: border-color var(--transition);
+    }
+    #chatbot-input:focus { border-color: var(--brand); }
+    #chatbot-input::placeholder { color: var(--neutral-600); }
+    #chatbot-send {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      background: var(--brand); color: var(--white);
+      display: flex; align-items: center; justify-content: center; transition: background var(--transition);
+    }
+    #chatbot-send:hover { background: var(--brand-dark); }
+    @media (max-width: 480px) {
+      .chatbot-panel { width: calc(100vw - 32px); right: var(--sp-2); bottom: 76px; height: 480px; }
+      .chat-btn__label { display: none; }
+      .chat-btn { padding: 14px; border-radius: 50%; width: 52px; height: 52px; justify-content: center; }
+      .chat-btn__dot { display: none; }
+    }
+
+    /* ══════════════════════════════════════════════════════
+       PAGE HERO (compact, max 40vh)
+    ══════════════════════════════════════════════════════ */
+    .page-hero {
+      min-height: 40vh; max-height: 40vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 120px 0 var(--sp-8);
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, var(--neutral-100) 0%, var(--brand-light) 50%, #EDE0CF 100%);
+    }
+    .page-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(200,169,126,.18) 0%, transparent 65%);
+    }
+    .page-hero__inner { position: relative; z-index: 1; }
+
+    .breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.78rem; color: var(--neutral-600); margin-bottom: var(--sp-3);
+    }
+    .breadcrumb a { color: var(--neutral-600); transition: color var(--transition); }
+    .breadcrumb a:hover { color: var(--brand-dark); }
+    .breadcrumb span { color: var(--neutral-600); opacity: .5; }
+    .breadcrumb strong { color: var(--neutral-900); font-weight: 500; }
+
+    .page-hero__title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.2; margin-bottom: var(--sp-2);
+    }
+    .page-hero__sub { font-size: 1.02rem; color: var(--neutral-600); max-width: 560px; line-height: 1.65; }
+
+    /* ══════════════════════════════════════════════════════
+       FAQ SECTION
+    ══════════════════════════════════════════════════════ */
+    .faq-section { padding: var(--sp-12) 0; background: var(--white); }
+    .faq-layout { display: grid; grid-template-columns: 260px 1fr; gap: var(--sp-8); align-items: start; }
+
+    /* Sticky sidebar with group nav */
+    .faq-sidebar { position: sticky; top: 88px; }
+    .faq-sidebar__title { font-size: .72rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--neutral-600); margin-bottom: var(--sp-2); }
+    .faq-nav { display: flex; flex-direction: column; gap: 4px; }
+    .faq-nav a {
+      display: flex; align-items: center; gap: 10px;
+      font-size: .875rem; color: var(--neutral-600); padding: 8px 12px;
+      border-radius: var(--radius-sm); border-left: 2px solid transparent;
+      transition: color var(--transition), background var(--transition), border-color var(--transition);
+    }
+    .faq-nav a:hover { color: var(--brand-dark); background: var(--brand-light); border-left-color: var(--brand); }
+
+    /* FAQ groups */
+    .faq-groups { display: flex; flex-direction: column; gap: var(--sp-8); }
+    .faq-group { scroll-margin-top: 100px; }
+
+    .faq-group__header { display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-4); }
+    .faq-group__badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: var(--radius-full);
+    }
+    .badge--green  { background: #E8F5E9; color: #2E7D32; }
+    .badge--blue   { background: #E3F2FD; color: #1565C0; }
+    .badge--orange { background: #FFF3E0; color: #E65100; }
+    .badge--purple { background: #F3E5F5; color: #6A1B9A; }
+
+    .faq-group__title { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 600; }
+
+    /* Individual FAQ items */
+    .faq-item { border-bottom: 1px solid rgba(200,169,126,.15); }
+    .faq-item:first-of-type { border-top: 1px solid rgba(200,169,126,.15); }
+
+    .faq-q {
+      display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3);
+      width: 100%; text-align: left;
+      padding: 20px 0; font-size: .96rem; font-weight: 500; color: var(--neutral-900);
+      transition: color var(--transition);
+    }
+    .faq-q:hover { color: var(--brand-dark); }
+    .faq-item.open .faq-q { color: var(--brand-dark); }
+
+    .faq-q__icon {
+      flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+      background: var(--brand-light); color: var(--brand-dark);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform var(--transition), background var(--transition), color var(--transition);
+    }
+    .faq-item.open .faq-q__icon { transform: rotate(45deg); background: var(--brand); color: var(--white); }
+
+    /* Smooth height animation using CSS Grid */
+    .faq-body {
+      display: grid; grid-template-rows: 0fr;
+      transition: grid-template-rows .35s ease;
+    }
+    .faq-item.open .faq-body { grid-template-rows: 1fr; }
+
+    .faq-body-inner { overflow: hidden; min-height: 0; }
+    .faq-answer {
+      padding-bottom: var(--sp-3); padding-right: var(--sp-6);
+      color: var(--neutral-600); font-size: .9rem; line-height: 1.8;
+    }
+
+    @media (max-width: 860px) {
+      .faq-layout { grid-template-columns: 1fr; }
+      .faq-sidebar { position: static; margin-bottom: var(--sp-4); }
+      .faq-nav { flex-direction: row; flex-wrap: wrap; }
+      .faq-nav a { border-left: none; border-bottom: 2px solid transparent; border-radius: var(--radius-full); }
+      .faq-nav a:hover { border-left-color: transparent; border-bottom-color: var(--brand); }
+    }
+    @media (max-width: 480px) { .faq-answer { padding-right: 0; } }
+
+    /* ══════════════════════════════════════════════════════
+       BOTTOM CTA BAND
+    ══════════════════════════════════════════════════════ */
+    .cta-band {
+      background: var(--brand-light); padding: var(--sp-8) 0;
+      text-align: center;
+    }
+    .cta-band__inner { max-width: 600px; margin: 0 auto; }
+    .cta-band__title { font-family: var(--font-heading); font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: var(--sp-2); }
+    .cta-band__sub { color: var(--neutral-600); font-size: .97rem; margin-bottom: var(--sp-4); line-height: 1.6; }
+    .cta-band__btns { display: flex; gap: var(--sp-2); justify-content: center; flex-wrap: wrap; }
+  </style>
+  <script src="chatbot.js" defer></script>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════════════ -->
+<header>
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
+    <div class="container">
+      <div class="navbar__inner">
+        <a href="index.html" class="navbar__logo">Lumi<span>næ</span></a>
+        <ul class="navbar__links" role="list">
+          <li><a href="index.html#produits">Produits</a></li>
+          <li><a href="index.html#routine">Routine</a></li>
+          <li><a href="index.html#avis">Avis</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="a-propos.html">À propos</a></li>
+        </ul>
+        <a href="index.html#produits" class="btn-primary navbar__cta">Découvrir ma routine</a>
+        <button class="navbar__burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="drawer">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="navbar__drawer" id="drawer" role="dialog" aria-label="Menu" aria-hidden="true">
+    <a href="index.html#produits">Produits</a>
+    <a href="index.html#routine">Routine</a>
+    <a href="index.html#avis">Avis</a>
+    <a href="faq.html">FAQ</a>
+    <a href="a-propos.html">À propos</a>
+    <a href="index.html#produits" class="btn-primary">Découvrir ma routine</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE HERO
+═══════════════════════════════════════════════════ -->
+<section class="page-hero" aria-label="En-tête de page">
+  <div class="container">
+    <div class="page-hero__inner">
+      <nav class="breadcrumb" aria-label="Fil d'Ariane">
+        <a href="index.html">Accueil</a>
+        <span aria-hidden="true">›</span>
+        <strong aria-current="page">FAQ</strong>
+      </nav>
+      <h1 class="page-hero__title">Vos questions, nos réponses</h1>
+      <p class="page-hero__sub">Tout ce que vous devez savoir sur nos soins, vos commandes et notre philosophie.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FAQ CONTENT
+═══════════════════════════════════════════════════ -->
+<section class="faq-section">
+  <div class="container">
+    <div class="faq-layout">
+
+      <!-- Sidebar navigation -->
+      <aside class="faq-sidebar reveal">
+        <p class="faq-sidebar__title">Thèmes</p>
+        <nav class="faq-nav" aria-label="Navigation par thème">
+          <a href="#group-produits">🌿 Produits</a>
+          <a href="#group-commandes">📦 Commandes</a>
+          <a href="#group-retours">↩️ Retours</a>
+          <a href="#group-paiement">💳 Paiement</a>
+        </nav>
+      </aside>
+
+      <!-- FAQ groups -->
+      <div class="faq-groups">
+
+        <!-- Group 1: Produits -->
+        <div class="faq-group reveal" id="group-produits">
+          <div class="faq-group__header">
+            <span class="faq-group__badge badge--green">🌿 Nos produits &amp; formulations</span>
+          </div>
+
+          <div class="faq-item" role="region" aria-labelledby="q1">
+            <button class="faq-q" id="q1" aria-expanded="false" aria-controls="a1">
+              Vos produits sont-ils vraiment vegan et cruelty-free ?
+              <span class="faq-q__icon" aria-hidden="true">
+                <i data-lucide="plus" width="14" height="14"></i>
+              </span>
+            </button>
+            <div class="faq-body" id="a1" role="region">
+              <div class="faq-body-inner">
+                <p class="faq-answer">Absolument. L'ensemble de la gamme Luminae est certifiée vegan par EVE VEGAN et cruelty-free par PETA. Aucun ingrédient d'origine animale, aucun test sur les animaux — à aucune étape de notre chaîne de production. Ces engagements font partie de notre ADN depuis le premier jour.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" role="region" aria-labelledby="q2">
+            <button class="faq-q" id="q2" aria-expanded="false" aria-controls="a2">
+              Vos formules sont-elles adaptées aux peaux sensibles ?
+              <span class="faq-q__icon" aria-hidden="true">
+                <i data-lucide="plus" width="14" height="14"></i>
+              </span>
+            </button>
+            <div class="faq-body" id="a2" role="region">
+              <div class="faq-body-inner">
+                <p class="faq-answer">Oui. Toutes nos formules sont testées dermatologiquement et conçues sans parfum synthétique, sans alcool dénaturé et sans perturbateurs endocriniens. Nos textures sont volontairement légères pour ne pas surcharger l'épiderme. En cas de doute, testez d'abord le produit sur le pli du coude pendant 48h.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" role="region" aria-labelledby="q3">
+            <button class="faq-q" id="q3" aria-expanded="false" aria-controls="a3">
+              Quelle est la durée de vie de vos produits après ouverture ?
+              <span class="faq-q__icon" aria-hidden="true">
+                <i data-lucide="plus" width="14" height="14"></i>
+              </span>
+            </button>
+            <div class="faq-body" id="a3" role="region">
+              <div class="faq-body-inner">
+                <p class="faq-answer">Chaque produit affiche un symbole PAO (Période Après Ouverture) sur son emballage — généralement 6M (6 mois) pour nos sérums et 12M pour nos crèmes. Conservez-les à l'abri de la chaleur et de la lumière directe pour préserver leur efficacité et la stabilité des actifs.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" role="region" aria-labelledby="q4">
+            <button class="faq-q" id="q4" aria-expanded="false" aria-controls="a4">
+              Puis-je utiliser plusieurs produits Luminae ensemble ?
+              <span class="faq-q__icon" aria-hidden="true">
+                <i data-lucide="plus" width="14" height="14"></i>
+              </span>
+            </button>
+            <div class="faq-body" id="a4" role="region">
+              <div class="faq-body-inner">
+                <p class="faq-answer">Oui, toute la gamme a été pensée pour fonctionner en synergie. La routine idéale : Nettoyant → Sérum Vitamine C (matin) ou Huile Précieuse (soir) → Crème Hydratante → SPF 50 le matin. Notre conseillère Luna peut vous composer une routine personnalisée via le chat disponible sur cette page.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Group 2: Commandes -->
+        <div class="faq-group reveal reveal-d1" id="group-commandes">
+          <div class="faq-group__header">
+            <span class="faq-group__badge badge--blue">📦 Commandes &amp; livraison</span>
+          </div>
+
+          <div class="faq-item" role="region" aria-labelledby="q5">
+            <button class="faq-q" id="q5" aria-expanded="false" aria-controls="a5">
+              Quels sont les délais et frais de livraison ?
+              <span class="faq-q__icon" aria-hidden="true">
+                <i data-lucide="plus" width="14" height="14"></i>
+              </span>
+            </button>
+            <div class="faq-body" id="a5" role="region">
+              <div class="faq-body-inner">
+                <p class="faq-answer">La livraison standard (3–5 jours ouvrés) est offerte dès 60 € d'achat. En dessous, elle est facturée 4,90 €. La livraison express (24h) est disponible à 9,90 €. Nous livrons en France métropolitaine, en Belgique, en Suisse et au Luxembourg.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" role="region" aria-labelledby="q6">
+            <button class="faq-q" id="q6" aria-expanded="false" aria-controls="a6">
+              Comment suivre ma commande ?
+              <span class="faq-q__icon" aria-hidden="true">
+                <i data-lucide="plus" width="14" height="14"></i>
+              </span>
+            </button>
+            <div class="faq-body" id="a6" role="region">
+              <div class="faq-body-inner">
+                <p class="faq-answer">Dès l'expédition de votre colis, vous recevez un e-mail avec un lien de suivi en temps réel. Vous pouvez également consulter l'état de votre commande dans votre espace client, rubrique « Mes commandes ».</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" role="region" aria-labelledby="q7">
+            <button class="faq-q" id="q7" aria-expanded="false" aria-controls="a7">
+              Puis-je modifier ou annuler ma commande ?
+              <span class="faq-q__icon" aria-hidden="true">
+                <i data-lucide="plus" width="14" height="14"></i>
+              </span>
+            </button>
+            <div class="faq-body" id="a7" role="region">
+              <div class="faq-body-inner">
+                <p class="faq-answer">Toute modification ou annulation est possible dans les 2 heures suivant la validation de la commande, en contactant notre service client. Au-delà, la commande est déjà en préparation et ne peut plus être modifiée.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Group 3: Retours -->
+        <div class="faq-group reveal reveal-d2" id="group-retours">
+          <div class="faq-group__header">
+            <span class="faq-group__badge badge--orange">↩️ Retours &amp; remboursements</span>
+          </div>
+
+          <div class="faq-item" role="region" aria-labelledby="q8">
+            <button class="faq-q" id="q8" aria-expanded="false" aria-controls="a8">
+              Quelle est votre politique de retour ?
+              <span class="faq-q__icon" aria-hidden="true">
+                <i data-lucide="plus" width="14" height="14"></i>
+              </span>
+            </button>
+            <div class="faq-body" id="a8" role="region">
+              <div class="faq-body-inner">
+                <p class="faq-answer">Vous disposez de 30 jours après réception pour retourner tout produit non ouvert et dans son emballage d'origine. Le retour est gratuit via notre étiquette prépayée. Les produits ouverts ne sont pas repris pour des raisons d'hygiène, sauf défaut avéré.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" role="region" aria-labelledby="q9">
+            <button class="faq-q" id="q9" aria-expanded="false" aria-controls="a9">
+              Dans quel délai suis-je remboursée ?
+              <span class="faq-q__icon" aria-hidden="true">
+                <i data-lucide="plus" width="14" height="14"></i>
+              </span>
+            </button>
+            <div class="faq-body" id="a9" role="region">
+              <div class="faq-body-inner">
+                <p class="faq-answer">Le remboursement est effectué sous 5 à 7 jours ouvrés après réception et validation du retour, sur le moyen de paiement utilisé lors de l'achat.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Group 4: Paiement -->
+        <div class="faq-group reveal reveal-d3" id="group-paiement">
+          <div class="faq-group__header">
+            <span class="faq-group__badge badge--purple">💳 Paiement &amp; sécurité</span>
+          </div>
+
+          <div class="faq-item" role="region" aria-labelledby="q10">
+            <button class="faq-q" id="q10" aria-expanded="false" aria-controls="a10">
+              Quels modes de paiement acceptez-vous ?
+              <span class="faq-q__icon" aria-hidden="true">
+                <i data-lucide="plus" width="14" height="14"></i>
+              </span>
+            </button>
+            <div class="faq-body" id="a10" role="region">
+              <div class="faq-body-inner">
+                <p class="faq-answer">Carte bancaire (Visa, Mastercard, American Express), PayPal, Apple Pay et Google Pay. Le paiement en 3x sans frais est disponible dès 80 € d'achat via Alma.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item" role="region" aria-labelledby="q11">
+            <button class="faq-q" id="q11" aria-expanded="false" aria-controls="a11">
+              Mes données bancaires sont-elles sécurisées ?
+              <span class="faq-q__icon" aria-hidden="true">
+                <i data-lucide="plus" width="14" height="14"></i>
+              </span>
+            </button>
+            <div class="faq-body" id="a11" role="region">
+              <div class="faq-body-inner">
+                <p class="faq-answer">Oui. Luminae ne stocke aucune donnée bancaire. Tous les paiements sont traités par Stripe, certifié PCI-DSS niveau 1 — le plus haut standard de sécurité bancaire en ligne. Votre tranquillité d'esprit est notre priorité.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /faq-groups -->
+    </div><!-- /faq-layout -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     BOTTOM CTA BAND
+═══════════════════════════════════════════════════ -->
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-band__inner reveal">
+      <h2 class="cta-band__title">Vous n'avez pas trouvé votre réponse ?</h2>
+      <p class="cta-band__sub">Notre équipe est disponible du lundi au vendredi, de 9h à 18h. Luna, notre conseillère beauté, répond également en quelques secondes via le chat.</p>
+      <div class="cta-band__btns">
+        <button class="btn-primary" id="cta-open-chat" aria-label="Ouvrir le chat avec Luna">
+          <i data-lucide="message-circle" width="16" height="16"></i>
+          Parler à Luna (chat)
+        </button>
+        <a href="mailto:bonjour@luminae.fr" class="btn-ghost">
+          <i data-lucide="mail" width="16" height="16"></i>
+          Nous écrire
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════
+     CHATBOT WIDGET
+═══════════════════════════════════════════════════ -->
+<!-- CHATBOT INTEGRATION POINT — inject your JS logic here -->
+<button class="chat-btn" id="chat-btn" aria-label="Ouvrir le chat avec Luna" aria-haspopup="dialog" aria-expanded="false">
+  <i data-lucide="message-circle" width="19" height="19"></i>
+  <span class="chat-btn__label">Besoin d'aide ?</span>
+  <div class="chat-btn__dot" aria-hidden="true"></div>
+</button>
+
+<div class="chatbot-panel" id="chatbot-container" role="dialog" aria-modal="true" aria-label="Chat avec Luna" aria-hidden="true">
+  <div class="chatbot-panel__hdr">
+    <div class="chatbot-panel__hdr-l">
+      <div class="chatbot-av" aria-hidden="true">✨</div>
+      <div>
+        <p class="chatbot-panel__name">Luna · Conseillère beauté</p>
+        <p class="chatbot-panel__status">En ligne — répond en quelques secondes</p>
+      </div>
+    </div>
+    <button class="chat-close" id="chat-close" aria-label="Fermer le chat">
+      <i data-lucide="x" width="14" height="14"></i>
+    </button>
+  </div>
+  <div id="chatbot-messages" role="log" aria-live="polite">
+    <div class="chat-welcome">
+      <div class="chat-welcome__emoji">💆‍♀️</div>
+      <div class="chat-welcome__text">
+        <strong>Bonjour ! Je suis Luna.</strong>
+        Je suis là pour vous aider à trouver la routine idéale pour votre type de peau. Posez-moi toutes vos questions !
+      </div>
+    </div>
+  </div>
+  <div class="chatbot-panel__ftr">
+    <input type="text" id="chatbot-input" placeholder="Écrivez votre message…" aria-label="Votre message" autocomplete="off" />
+    <button id="chatbot-send" aria-label="Envoyer le message">
+      <i data-lucide="send" width="15" height="15"></i>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a href="index.html" class="footer__logo">Lumi<span>næ</span></a>
+        <p class="footer__tagline">La science au service de la nature.</p>
+        <nav class="footer__socials" aria-label="Réseaux sociaux">
+          <a href="#" aria-label="Instagram"><i data-lucide="instagram" width="17" height="17"></i></a>
+          <a href="#" aria-label="TikTok">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+          <a href="#" aria-label="Pinterest">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.03-2.83.19-.76 1.27-5.41 1.27-5.41s-.32-.65-.32-1.61c0-1.51.88-2.64 1.96-2.64.93 0 1.38.7 1.38 1.54 0 .94-.6 2.34-.91 3.64-.26 1.09.54 1.97 1.6 1.97 1.92 0 3.2-2.47 3.2-5.39 0-2.22-1.49-3.88-3.95-3.88-2.88 0-4.68 2.16-4.68 4.57 0 .83.24 1.41.62 1.86.18.21.2.3.13.54-.04.18-.15.61-.19.78-.06.25-.25.34-.46.25-1.32-.54-1.93-1.99-1.93-3.63 0-2.69 2.27-5.92 6.77-5.92 3.63 0 5.99 2.64 5.99 5.47 0 3.74-2.07 6.55-5.12 6.55-1.02 0-1.99-.55-2.32-1.17l-.67 2.56c-.24.93-.89 2.1-1.33 2.81.74.23 1.52.35 2.33.35 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+          </a>
+        </nav>
+      </div>
+      <div>
+        <p class="footer__col-title">Produits</p>
+        <ul class="footer__links">
+          <li><a href="index.html#produits">Sérum Vitamine C</a></li>
+          <li><a href="index.html#produits">Crème Hydratante</a></li>
+          <li><a href="index.html#produits">Huile Précieuse Nuit</a></li>
+          <li><a href="index.html#produits">Starter Kit</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">Aide</p>
+        <ul class="footer__links">
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="a-propos.html">À propos</a></li>
+          <li><a href="#">Suivi de commande</a></li>
+          <li><a href="#">Retours &amp; échanges</a></li>
+          <li><a href="#">Nous contacter</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">Légal</p>
+        <ul class="footer__links">
+          <li><a href="#">Mentions légales</a></li>
+          <li><a href="#">Confidentialité</a></li>
+          <li><a href="#">CGV</a></li>
+          <li><a href="#">Gestion des cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">© 2025 Luminae · Fait avec ❤️ en France</div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+  lucide.createIcons();
+
+  /* ── Navbar scroll ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  /* ── Active nav link (highlight current page) ── */
+  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.navbar__links a, .navbar__drawer a').forEach(link => {
+    const linkFile = (link.getAttribute('href') || '').split('#')[0].split('/').pop();
+    if (linkFile && linkFile === currentFile) link.classList.add('nav-active');
+  });
+
+  /* ── Hamburger / drawer ── */
+  const burger = document.getElementById('burger');
+  const drawer = document.getElementById('drawer');
+  function openDrawer()  { burger.classList.add('open'); drawer.classList.add('open'); burger.setAttribute('aria-expanded','true'); drawer.setAttribute('aria-hidden','false'); document.body.style.overflow = 'hidden'; }
+  function closeDrawer() { burger.classList.remove('open'); drawer.classList.remove('open'); burger.setAttribute('aria-expanded','false'); drawer.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
+  burger.addEventListener('click', () => drawer.classList.contains('open') ? closeDrawer() : openDrawer());
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDrawer(); closeChat(); } });
+
+  /* ── Scroll reveal ── */
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ── Chatbot widget ── */
+  const chatBtn      = document.getElementById('chat-btn');
+  const chatPanel    = document.getElementById('chatbot-container');
+  const chatClose    = document.getElementById('chat-close');
+  const chatInput    = document.getElementById('chatbot-input');
+  const chatSend     = document.getElementById('chatbot-send');
+  const chatMessages = document.getElementById('chatbot-messages');
+
+  function openChat() {
+    chatPanel.classList.add('open'); chatPanel.setAttribute('aria-hidden','false');
+    chatBtn.setAttribute('aria-expanded','true');
+    setTimeout(() => chatInput.focus(), 260);
+  }
+  function closeChat() {
+    chatPanel.classList.remove('open'); chatPanel.setAttribute('aria-hidden','true');
+    chatBtn.setAttribute('aria-expanded','false');
+  }
+  chatBtn.addEventListener('click', () => chatPanel.classList.contains('open') ? closeChat() : openChat());
+  chatClose.addEventListener('click', closeChat);
+
+  /* CTA band "Parler à Luna" button also opens chat */
+  document.getElementById('cta-open-chat').addEventListener('click', openChat);
+
+  function sendMessage() {
+    const text = chatInput.value.trim();
+    if (!text) return;
+    const bubble = document.createElement('div');
+    bubble.setAttribute('role','listitem');
+    Object.assign(bubble.style, { alignSelf:'flex-end', background:'var(--brand)', color:'white', padding:'10px 14px', borderRadius:'18px 18px 4px 18px', fontSize:'0.875rem', maxWidth:'80%', lineHeight:'1.5', wordBreak:'break-word' });
+    bubble.textContent = text;
+    chatMessages.appendChild(bubble);
+    chatInput.value = '';
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    // CHATBOT INTEGRATION POINT — inject AI response logic below this line
+  }
+  chatSend.addEventListener('click', sendMessage);
+  chatInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
+
+  /* ── FAQ Accordion ── */
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item    = btn.closest('.faq-item');
+      const isOpen  = item.classList.contains('open');
+
+      /* Close all open items */
+      document.querySelectorAll('.faq-item.open').forEach(openItem => {
+        openItem.classList.remove('open');
+        openItem.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+
+      /* Open this one only if it was previously closed */
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

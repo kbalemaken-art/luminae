@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luminae — La science au service de la nature</title>
+  <meta name="description" content="Luminae — Soins de beauté premium français. Formules vegan élaborées par nos experts pour révéler l'éclat naturel de votre peau." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Custom Properties ─────────────────────────────── */
+    :root {
+      --brand:        #C8A97E;
+      --brand-dark:   #8C6A47;
+      --brand-light:  #F5EFE6;
+      --neutral-900:  #1A1109;
+      --neutral-600:  #6B5744;
+      --neutral-100:  #FAF7F4;
+      --white:        #FFFFFF;
+
+      --sp-1:  8px;
+      --sp-2:  16px;
+      --sp-3:  24px;
+      --sp-4:  32px;
+      --sp-6:  48px;
+      --sp-8:  64px;
+      --sp-12: 96px;
+
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+      --transition:   200ms ease;
+      --radius-sm:    8px;
+      --radius-md:    16px;
+      --radius-lg:    24px;
+      --radius-full:  9999px;
+    }
+
+    /* ─── Reset ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html  { scroll-behavior: smooth; }
+    body  { font-family: var(--font-body); color: var(--neutral-900); background: var(--white); line-height: 1.6; overflow-x: hidden; }
+    a     { text-decoration: none; color: inherit; }
+    ul    { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font-family: var(--font-body); }
+
+    /* ─── Layout helpers ─────────────────────────────────── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--sp-3); }
+
+    /* ─── Buttons ─────────────────────────────────────────── */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px;
+      background: var(--brand); color: var(--white);
+      border-radius: var(--radius-full);
+      font-weight: 500; font-size: 0.93rem;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .btn-primary:hover { background: var(--brand-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200,169,126,.4); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 28px;
+      background: transparent; color: var(--neutral-900);
+      border: 1.5px solid rgba(26,17,9,.35);
+      border-radius: var(--radius-full);
+      font-weight: 500; font-size: 0.93rem;
+      transition: border-color var(--transition), color var(--transition), background var(--transition), transform var(--transition);
+    }
+    .btn-ghost:hover { border-color: var(--brand); color: var(--brand-dark); background: rgba(200,169,126,.07); transform: translateY(-2px); }
+
+    /* ─── Section label ──────────────────────────────────── */
+    .section-label {
+      display: inline-flex; align-items: center; gap: var(--sp-2);
+      font-size: 0.72rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--brand-dark); margin-bottom: var(--sp-1);
+    }
+    .section-label::before, .section-label::after { content: ''; display: block; width: 28px; height: 1.5px; background: var(--brand); opacity: .55; }
+
+    .section-title { font-family: var(--font-heading); font-size: clamp(1.9rem, 4vw, 2.75rem); line-height: 1.2; margin-bottom: var(--sp-2); }
+    .section-sub   { color: var(--neutral-600); font-size: 1.02rem; line-height: 1.7; max-width: 520px; }
+
+    /* ─── Scroll-reveal ──────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: .1s; }
+    .reveal-d2 { transition-delay: .2s; }
+    .reveal-d3 { transition-delay: .3s; }
+    .reveal-d4 { transition-delay: .4s; }
+
+    /* ═══════════════════════════════════════════════════════
+       NAVBAR
+    ═══════════════════════════════════════════════════════ */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 18px 0;
+      transition: background .3s, backdrop-filter .3s, box-shadow .3s, padding .3s;
+    }
+    .navbar.scrolled {
+      padding: 12px 0;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 rgba(0,0,0,.06);
+    }
+    .navbar__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); }
+
+    .navbar__logo { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; letter-spacing: .02em; color: var(--neutral-900); }
+    .navbar__logo span { color: var(--brand); }
+
+    .navbar__links { display: flex; align-items: center; gap: var(--sp-4); }
+    .navbar__links a {
+      font-size: 0.88rem; font-weight: 500; color: var(--neutral-600);
+      position: relative; transition: color var(--transition);
+    }
+    .navbar__links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1.5px; background: var(--brand); transition: width var(--transition); }
+    .navbar__links a:hover { color: var(--neutral-900); }
+    .navbar__links a:hover::after { width: 100%; }
+
+    .navbar__cta { padding: 10px 22px; font-size: 0.86rem; }
+
+    /* Hamburger */
+    .navbar__burger { display: none; flex-direction: column; gap: 5px; padding: 6px; }
+    .navbar__burger span { display: block; width: 22px; height: 2px; background: var(--neutral-900); border-radius: 2px; transition: transform var(--transition), opacity var(--transition); }
+    .navbar__burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .navbar__burger.open span:nth-child(2) { opacity: 0; }
+    .navbar__burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile drawer */
+    .navbar__drawer {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99;
+      background: rgba(255,255,255,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: var(--sp-3);
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    .navbar__drawer.open { opacity: 1; pointer-events: all; }
+    .navbar__drawer a { font-family: var(--font-heading); font-size: 2rem; color: var(--neutral-900); transition: color var(--transition); }
+    .navbar__drawer a:hover { color: var(--brand-dark); }
+    .navbar__drawer .btn-primary { font-family: var(--font-body); font-size: 0.95rem; margin-top: var(--sp-2); }
+
+    @media (max-width: 768px) {
+      .navbar__links, .navbar__cta { display: none; }
+      .navbar__burger { display: flex; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════════════ */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      position: relative; overflow: hidden; padding: 120px 0 80px;
+    }
+
+    @keyframes gradShift {
+      0%   { background-position: 0%   50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0%   50%; }
+    }
+    .hero__bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--neutral-100) 0%, #EEE4D4 20%, var(--brand-light) 45%, #EDE0CF 70%, var(--neutral-100) 100%);
+      background-size: 400% 400%;
+      animation: gradShift 8s ease infinite;
+    }
+
+    .hero__inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-8); align-items: center;
+    }
+
+    .hero__eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--brand-dark); margin-bottom: var(--sp-3);
+    }
+    .hero__eyebrow::before { content: ''; display: block; width: 24px; height: 1.5px; background: var(--brand); }
+
+    .hero__h1 { font-family: var(--font-heading); font-size: clamp(2.2rem, 4.5vw, 3.5rem); line-height: 1.15; margin-bottom: var(--sp-3); }
+    .hero__h1 em { color: var(--brand-dark); font-style: italic; }
+
+    .hero__sub { font-size: 1.05rem; color: var(--neutral-600); line-height: 1.75; margin-bottom: var(--sp-4); max-width: 430px; }
+    .hero__ctas { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
+
+    /* ── CSS art: serum bottle ── */
+    .hero__visual { display: flex; justify-content: center; align-items: center; height: 460px; }
+    .art-wrap { position: relative; width: 300px; height: 380px; }
+
+    .art-glow {
+      position: absolute; width: 260px; height: 260px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,169,126,.28) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+    }
+    .art-ring-lg {
+      position: absolute; width: 240px; height: 240px; border-radius: 50%;
+      background: linear-gradient(145deg, rgba(200,169,126,.12) 0%, rgba(245,239,230,.75) 100%);
+      border: 1.5px solid rgba(200,169,126,.28);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+    }
+    .art-ring-sm {
+      position: absolute; width: 178px; height: 178px; border-radius: 50%;
+      border: 1px dashed rgba(200,169,126,.4);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+    }
+
+    /* dropper cap */
+    .art-cap {
+      position: absolute; width: 50px; height: 50px; border-radius: 25px 25px 8px 8px;
+      background: linear-gradient(160deg, #2E1E10 0%, #1A1109 100%);
+      box-shadow: 0 4px 14px rgba(0,0,0,.25);
+      bottom: 224px; left: 50%; transform: translateX(-50%);
+    }
+    .art-cap::after {
+      content: ''; position: absolute;
+      width: 10px; height: 26px; border-radius: var(--radius-full);
+      background: #1A1109;
+      top: -22px; left: 50%; transform: translateX(-50%);
+    }
+
+    /* bottle body */
+    .art-body {
+      position: absolute; width: 82px; height: 166px;
+      border-radius: 41px 41px 18px 18px;
+      background: linear-gradient(160deg, rgba(255,255,255,.88) 0%, rgba(200,169,126,.5) 45%, rgba(140,106,71,.35) 100%);
+      border: 1.5px solid rgba(200,169,126,.45);
+      box-shadow: inset -10px 0 22px rgba(255,255,255,.55), inset 3px 0 10px rgba(0,0,0,.05), 5px 14px 32px rgba(140,106,71,.2);
+      bottom: 68px; left: 50%; transform: translateX(-50%);
+    }
+    .art-body::before {
+      content: ''; position: absolute;
+      width: 18px; height: 86px; border-radius: var(--radius-full);
+      background: linear-gradient(180deg, rgba(255,255,255,.75) 0%, transparent 100%);
+      top: 22px; left: 14px;
+    }
+
+    /* floating accents */
+    .art-dot { position: absolute; border-radius: 50%; }
+    .art-dot-a { width: 44px; height: 44px; top: 28px; right: 26px; background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%); opacity: .7; }
+    .art-dot-b { width: 26px; height: 26px; bottom: 38px; left: 18px; background: var(--brand-light); border: 1.5px solid var(--brand); opacity: .9; }
+    .art-dot-c { width: 14px; height: 14px; top: 96px; left: 22px; background: var(--brand); opacity: .45; }
+
+    .art-leaf { position: absolute; width: 36px; height: 54px; border-radius: 50% 0 50% 0; background: linear-gradient(135deg, rgba(200,169,126,.28) 0%, rgba(140,106,71,.12) 100%); border: 1px solid rgba(200,169,126,.38); }
+    .art-leaf-a { top: 56px; left: 22px; transform: rotate(28deg); }
+    .art-leaf-b { bottom: 56px; right: 18px; transform: rotate(-18deg); }
+
+    @keyframes floatY  { 0%,100% { transform: translateY(0); }  50% { transform: translateY(-9px); } }
+    @keyframes floatRA { 0%,100% { transform: translateY(0) rotate(28deg); } 50% { transform: translateY(-7px) rotate(28deg); } }
+    @keyframes floatRB { 0%,100% { transform: translateY(0) rotate(-18deg); } 50% { transform: translateY(-7px) rotate(-18deg); } }
+    .art-dot-a { animation: floatY  4s ease-in-out infinite; }
+    .art-dot-b { animation: floatY  5s ease-in-out infinite 1s; }
+    .art-dot-c { animation: floatY  3.5s ease-in-out infinite .5s; }
+    .art-leaf-a { animation: floatRA 6s ease-in-out infinite; }
+    .art-leaf-b { animation: floatRB 5s ease-in-out infinite 2s; }
+
+    /* scroll cue */
+    .hero__scroll {
+      position: absolute; bottom: var(--sp-4); left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: var(--neutral-600); font-size: 0.7rem; letter-spacing: .1em; text-transform: uppercase;
+    }
+    @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(7px); } }
+    .hero__scroll svg { animation: bob 2s ease-in-out infinite; }
+
+    @media (max-width: 900px) {
+      .hero__inner { grid-template-columns: 1fr; text-align: center; }
+      .hero__sub    { max-width: 100%; }
+      .hero__ctas   { justify-content: center; }
+      .hero__visual { height: 300px; order: -1; }
+      .art-wrap { width: 220px; height: 280px; }
+      .art-ring-lg { width: 180px; height: 180px; }
+      .art-ring-sm { width: 135px; height: 135px; }
+      .art-body    { width: 62px; height: 126px; border-radius: 31px 31px 14px 14px; bottom: 52px; }
+      .art-cap     { width: 38px; height: 38px; bottom: 170px; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       TRUST BAR
+    ═══════════════════════════════════════════════════════ */
+    .trust {
+      background: var(--white);
+      border-top: 1px solid rgba(200,169,126,.15);
+      border-bottom: 1px solid rgba(200,169,126,.15);
+      padding: var(--sp-4) 0;
+    }
+    .trust__grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--sp-2); }
+    .trust-item { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2); }
+    .trust-item__icon {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--brand-light); color: var(--brand-dark);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .trust-item strong { display: block; font-weight: 600; font-size: .93rem; color: var(--neutral-900); line-height: 1.2; }
+    .trust-item span   { font-size: .78rem; color: var(--neutral-600); }
+
+    @media (max-width: 768px) { .trust__grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 420px) { .trust__grid { grid-template-columns: 1fr; } }
+
+    /* ═══════════════════════════════════════════════════════
+       PRODUCTS
+    ═══════════════════════════════════════════════════════ */
+    #produits { padding: var(--sp-12) 0; background: var(--neutral-100); }
+    .products__header { text-align: center; margin-bottom: var(--sp-8); }
+    .products__header .section-sub { margin: 0 auto; }
+
+    .products__grid { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--sp-3); }
+
+    .card {
+      background: var(--white); border-radius: var(--radius-lg); overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 22px 50px rgba(140,106,71,.14); }
+
+    .card__vis {
+      height: 196px; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* per-product gradients */
+    .card--serum .card__vis { background: linear-gradient(135deg, #FFF6E5 0%, #FFE8B0 45%, #F0C040 100%); }
+    .card--creme .card__vis { background: linear-gradient(135deg, #F8F4F0 0%, #E8DDD2 45%, #CFC0AE 100%); }
+    .card--huile .card__vis { background: linear-gradient(135deg, #2B1730 0%, #482040 45%, #7A3A6A 100%); }
+    .card--kit   .card__vis { background: linear-gradient(135deg, var(--brand-light) 0%, var(--brand) 55%, var(--brand-dark) 100%); }
+
+    /* shape: drop */
+    .shape-drop { width: 46px; height: 62px; border-radius: 50% 50% 44% 44% / 58% 58% 42% 42%; }
+    .card--serum .shape-drop { background: linear-gradient(160deg, rgba(255,255,255,.72) 0%, #D4940A 100%); box-shadow: 0 4px 18px rgba(212,148,10,.4); }
+
+    /* shape: jar */
+    .shape-jar { position: relative; width: 68px; height: 50px; border-radius: 0 0 12px 12px; }
+    .shape-jar::before { content: ''; position: absolute; top: -14px; left: -5px; right: -5px; height: 16px; border-radius: 5px 5px 0 0; }
+    .shape-jar::after  { content: ''; position: absolute; top: -23px; left: 10px; right: 10px; height: 11px; border-radius: 50%; }
+    .card--creme .shape-jar { background: linear-gradient(160deg, rgba(255,255,255,.9) 0%, #C0AB96 100%); box-shadow: 0 4px 12px rgba(0,0,0,.09); }
+    .card--creme .shape-jar::before { background: linear-gradient(135deg, rgba(255,255,255,.9) 0%, #D4C9BE 100%); }
+    .card--creme .shape-jar::after  { background: rgba(255,255,255,.55); }
+
+    /* shape: bottle */
+    .shape-bottle { position: relative; width: 34px; height: 70px; border-radius: 7px 7px 16px 16px; }
+    .shape-bottle::before { content: ''; position: absolute; top: -15px; left: 7px; width: 20px; height: 15px; border-radius: 4px 4px 0 0; }
+    .card--huile .shape-bottle { background: linear-gradient(160deg, rgba(160,90,150,.55) 0%, #301228 100%); border: 1px solid rgba(160,80,140,.38); box-shadow: 0 4px 18px rgba(0,0,0,.3); }
+    .card--huile .shape-bottle::before { background: #220E25; border: 1px solid rgba(160,80,140,.35); }
+    .card--huile .card__vis::after { content: '✦  ✦  ✦'; position: absolute; top: 18px; left: 50%; transform: translateX(-50%); color: rgba(200,169,126,.65); font-size: .7rem; letter-spacing: 4px; }
+
+    /* shape: kit trio */
+    .shape-kit { display: flex; gap: 7px; align-items: flex-end; }
+    .shape-kit span { border-radius: 5px 5px 9px 9px; background: rgba(255,255,255,.72); }
+    .shape-kit span:nth-child(1) { width: 22px; height: 50px; }
+    .shape-kit span:nth-child(2) { width: 28px; height: 36px; }
+    .shape-kit span:nth-child(3) { width: 20px; height: 58px; }
+
+    .card__body { padding: var(--sp-3); flex: 1; display: flex; flex-direction: column; }
+    .card__badge { display: inline-block; font-size: .68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--brand-dark); background: var(--brand-light); padding: 2px 10px; border-radius: var(--radius-full); margin-bottom: var(--sp-1); }
+    .card__name  { font-family: var(--font-heading); font-size: 1.08rem; font-weight: 600; line-height: 1.3; margin-bottom: var(--sp-1); }
+    .card__desc  { font-size: .84rem; color: var(--neutral-600); line-height: 1.55; flex: 1; margin-bottom: var(--sp-3); }
+    .card__foot  { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
+    .card__price { font-family: var(--font-heading); font-size: 1.28rem; font-weight: 700; }
+    .card__btn   { padding: 9px 18px; font-size: .82rem; font-weight: 500; border-radius: var(--radius-full); background: var(--neutral-100); color: var(--neutral-900); transition: background var(--transition), color var(--transition); }
+    .card:hover .card__btn { background: var(--brand); color: var(--white); }
+
+    @media (max-width: 900px) { .products__grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .products__grid { grid-template-columns: 1fr; } }
+
+    /* ═══════════════════════════════════════════════════════
+       ROUTINE
+    ═══════════════════════════════════════════════════════ */
+    #routine { padding: var(--sp-12) 0; background: var(--white); }
+    .routine__header { text-align: center; margin-bottom: var(--sp-8); }
+
+    .routine__row {
+      display: grid; grid-template-columns: 1fr 60px 1fr 60px 1fr; align-items: start; gap: 0;
+    }
+    .routine__line {
+      display: flex; align-items: flex-start; justify-content: center; padding-top: 44px;
+    }
+    .routine__line-inner { width: 2px; height: 60px; background: linear-gradient(180deg, var(--brand) 0%, transparent 100%); opacity: .3; }
+    /* on desktop show horizontal connector */
+    @media (min-width: 769px) {
+      .routine__line { align-items: center; padding-top: 0; margin-top: 44px; }
+      .routine__line-inner { width: 100%; height: 1.5px; background: linear-gradient(90deg, var(--brand), var(--brand-dark)); opacity: .28; }
+    }
+
+    .step { text-align: center; padding: var(--sp-3); }
+    .step__num {
+      width: 54px; height: 54px; border-radius: 50%; margin: 0 auto var(--sp-3);
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+      color: var(--white); font-family: var(--font-heading); font-size: 1.35rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(200,169,126,.4);
+    }
+    .step__icon { display: flex; justify-content: center; margin-bottom: var(--sp-2); color: var(--brand-dark); }
+    .step__name { font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600; margin-bottom: var(--sp-1); }
+    .step__desc { font-size: .865rem; color: var(--neutral-600); line-height: 1.65; margin-bottom: var(--sp-2); }
+    .step__prod {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: .78rem; font-weight: 500; color: var(--brand-dark);
+      background: var(--brand-light); padding: 4px 12px; border-radius: var(--radius-full);
+    }
+
+    @media (max-width: 768px) {
+      .routine__row { grid-template-columns: 1fr; gap: var(--sp-3); }
+      .routine__line { display: none; }
+      .step { text-align: left; border-left: 3px solid var(--brand); background: var(--neutral-100); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+      .step__num  { margin: 0 0 var(--sp-2); }
+      .step__icon { justify-content: flex-start; }
+      .step__prod { margin-top: 0; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       TESTIMONIALS
+    ═══════════════════════════════════════════════════════ */
+    #avis { padding: var(--sp-12) 0; background: var(--brand-light); }
+    .avis__header { text-align: center; margin-bottom: var(--sp-8); }
+    .avis__grid   { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--sp-3); }
+
+    .tcard {
+      background: var(--white); border-radius: var(--radius-lg); padding: var(--sp-4);
+      display: flex; flex-direction: column; gap: var(--sp-3);
+      box-shadow: 0 2px 18px rgba(140,106,71,.08);
+    }
+    .tcard__head { display: flex; align-items: center; gap: var(--sp-2); }
+    .tcard__av {
+      width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+      color: var(--white); font-weight: 600; font-size: .95rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tcard__name { font-weight: 600; font-size: .93rem; color: var(--neutral-900); }
+    .tcard__skin { font-size: .76rem; color: var(--neutral-600); }
+    .tcard__stars { color: var(--brand); letter-spacing: 2px; font-size: .88rem; }
+    .tcard__quote {
+      font-size: .875rem; color: var(--neutral-600); line-height: 1.72; font-style: italic;
+      position: relative; padding-left: var(--sp-3);
+    }
+    .tcard__quote::before {
+      content: '"'; position: absolute; left: 0; top: -6px;
+      font-family: var(--font-heading); font-size: 2.2rem; color: var(--brand); line-height: 1;
+    }
+
+    @media (max-width: 768px) { .avis__grid { grid-template-columns: 1fr; } }
+
+    /* ═══════════════════════════════════════════════════════
+       ABOUT
+    ═══════════════════════════════════════════════════════ */
+    #a-propos { padding: var(--sp-12) 0; background: var(--neutral-100); }
+    .about__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-8); align-items: center; }
+    .about__text p { color: var(--neutral-600); line-height: 1.8; margin-bottom: var(--sp-3); }
+
+    .about__visual {
+      display: flex; justify-content: center;
+    }
+    .about__circle-wrap { position: relative; width: 280px; height: 280px; }
+    .about__circle-outer {
+      position: absolute; inset: 0; border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand-light) 0%, rgba(200,169,126,.18) 100%);
+      border: 2px solid rgba(200,169,126,.28);
+    }
+    .about__circle-inner {
+      position: absolute; top: 20px; left: 20px; right: 20px; bottom: 20px; border-radius: 50%;
+      background: linear-gradient(225deg, rgba(255,255,255,.8) 0%, rgba(200,169,126,.12) 100%);
+      border: 1.5px dashed rgba(200,169,126,.4);
+    }
+    .about__year {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;
+    }
+    .about__year strong { display: block; font-family: var(--font-heading); font-size: 3.2rem; font-weight: 700; color: var(--brand); line-height: 1; }
+    .about__year span   { font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; color: var(--neutral-600); }
+
+    @media (max-width: 768px) {
+      .about__grid { grid-template-columns: 1fr; }
+      .about__visual { order: -1; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CHATBOT WIDGET
+    ═══════════════════════════════════════════════════════ */
+    .chat-btn {
+      position: fixed; bottom: var(--sp-3); right: var(--sp-3); z-index: 200;
+      display: flex; align-items: center; gap: 9px;
+      padding: 13px 20px;
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+      color: var(--white); border-radius: var(--radius-full);
+      font-size: .875rem; font-weight: 500;
+      box-shadow: 0 4px 22px rgba(200,169,126,.5);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .chat-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,169,126,.6); }
+    .chat-btn__dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:.7;transform:scale(1.2);} }
+    .chat-btn__dot { animation: pulse 2s infinite; }
+
+    /* panel */
+    .chatbot-panel {
+      position: fixed; bottom: 88px; right: var(--sp-3); z-index: 200;
+      width: 380px; height: 520px;
+      background: var(--white); border-radius: var(--radius-lg);
+      box-shadow: 0 20px 60px rgba(0,0,0,.15), 0 0 0 1px rgba(200,169,126,.12);
+      display: flex; flex-direction: column; overflow: hidden;
+      opacity: 0; pointer-events: none;
+      transform: translateY(16px) scale(.96);
+      transform-origin: bottom right;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .chatbot-panel.open { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
+
+    .chatbot-panel__hdr {
+      padding: 14px var(--sp-3);
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+      color: var(--white);
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .chatbot-panel__hdr-l { display: flex; align-items: center; gap: var(--sp-2); }
+    .chatbot-av {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    }
+    .chatbot-panel__name   { font-weight: 600; font-size: .92rem; }
+    .chatbot-panel__status { font-size: .72rem; opacity: .85; }
+    .chat-close {
+      width: 27px; height: 27px; border-radius: 50%;
+      background: rgba(255,255,255,.18); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition);
+    }
+    .chat-close:hover { background: rgba(255,255,255,.3); }
+
+    #chatbot-messages {
+      flex: 1; overflow-y: auto; padding: var(--sp-3);
+      background: #FAFAFA;
+      display: flex; flex-direction: column; gap: var(--sp-2);
+    }
+    .chat-welcome { text-align: center; padding: var(--sp-4) var(--sp-2); }
+    .chat-welcome__emoji { font-size: 2rem; margin-bottom: var(--sp-2); }
+    .chat-welcome__text  { font-size: .865rem; color: var(--neutral-600); line-height: 1.6; }
+    .chat-welcome__text strong { display: block; color: var(--neutral-900); font-weight: 600; margin-bottom: 4px; }
+
+    .chatbot-panel__ftr {
+      padding: var(--sp-2); border-top: 1px solid rgba(0,0,0,.06);
+      display: flex; gap: var(--sp-1); background: var(--white); flex-shrink: 0;
+    }
+    #chatbot-input {
+      flex: 1; padding: 10px 14px;
+      border: 1.5px solid rgba(200,169,126,.3); border-radius: var(--radius-full);
+      font-family: var(--font-body); font-size: .875rem; color: var(--neutral-900);
+      background: var(--neutral-100); outline: none;
+      transition: border-color var(--transition);
+    }
+    #chatbot-input:focus { border-color: var(--brand); }
+    #chatbot-input::placeholder { color: var(--neutral-600); }
+    #chatbot-send {
+      width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+      background: var(--brand); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition);
+    }
+    #chatbot-send:hover { background: var(--brand-dark); }
+
+    @media (max-width: 480px) {
+      .chatbot-panel { width: calc(100vw - 32px); right: var(--sp-2); bottom: 76px; height: 480px; }
+      .chat-btn__label { display: none; }
+      .chat-btn { padding: 14px; border-radius: 50%; width: 52px; height: 52px; justify-content: center; }
+      .chat-btn__dot { display: none; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════════════ */
+    footer { background: var(--neutral-900); color: rgba(255,255,255,.65); padding: var(--sp-8) 0 0; }
+
+    .footer__grid {
+      display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--sp-6);
+      padding-bottom: var(--sp-8); border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+
+    .footer__logo { font-family: var(--font-heading); font-size: 1.55rem; font-weight: 700; color: var(--white); letter-spacing: .02em; display: block; margin-bottom: var(--sp-1); }
+    .footer__logo span { color: var(--brand); }
+    .footer__tagline { font-style: italic; font-size: .85rem; color: rgba(255,255,255,.45); margin-bottom: var(--sp-3); }
+
+    .footer__socials { display: flex; gap: var(--sp-2); }
+    .footer__socials a {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,.07); color: rgba(255,255,255,.55);
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition), color var(--transition);
+    }
+    .footer__socials a:hover { background: var(--brand); color: var(--white); }
+
+    .footer__col-title { font-family: var(--font-heading); font-size: .97rem; font-weight: 600; color: var(--white); margin-bottom: var(--sp-3); }
+    .footer__links { display: flex; flex-direction: column; gap: var(--sp-1); }
+    .footer__links a { font-size: .855rem; color: rgba(255,255,255,.5); transition: color var(--transition); }
+    .footer__links a:hover { color: var(--brand); }
+
+    .footer__bottom { text-align: center; padding: var(--sp-3) 0; font-size: .78rem; color: rgba(255,255,255,.3); }
+
+    @media (max-width: 900px) { .footer__grid { grid-template-columns: 1fr 1fr; gap: var(--sp-4); } }
+    @media (max-width: 480px) { .footer__grid { grid-template-columns: 1fr; } }
+  </style>
+  <script src="chatbot.js" defer></script>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════════════════ -->
+<header>
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
+    <div class="container">
+      <div class="navbar__inner">
+        <a href="#" class="navbar__logo">Lumi<span>næ</span></a>
+
+        <ul class="navbar__links" role="list">
+          <li><a href="#produits">Produits</a></li>
+          <li><a href="#routine">Routine</a></li>
+          <li><a href="#avis">Avis</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="a-propos.html">À propos</a></li>
+        </ul>
+
+        <a href="#produits" class="btn-primary navbar__cta">Découvrir ma routine</a>
+
+        <button class="navbar__burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="drawer">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile fullscreen drawer -->
+  <div class="navbar__drawer" id="drawer" role="dialog" aria-label="Menu" aria-hidden="true">
+    <a href="#produits">Produits</a>
+    <a href="#routine">Routine</a>
+    <a href="#avis">Avis</a>
+    <a href="faq.html">FAQ</a>
+    <a href="a-propos.html">À propos</a>
+    <a href="#produits" class="btn-primary">Découvrir ma routine</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════ -->
+<section class="hero" aria-label="Introduction">
+  <div class="hero__bg" aria-hidden="true"></div>
+
+  <div class="container">
+    <div class="hero__inner">
+
+      <!-- Content -->
+      <div class="hero__content">
+        <p class="hero__eyebrow">Soin premium français</p>
+        <h1 class="hero__h1">
+          Révélez <em>l'éclat naturel</em><br>de votre peau.
+        </h1>
+        <p class="hero__sub">
+          Des formules vegan développées par nos experts en cosmétologie — pour une peau lumineuse, hydratée et protégée, naturellement et durablement.
+        </p>
+        <div class="hero__ctas">
+          <a href="#produits" class="btn-primary">Découvrir les soins</a>
+          <a href="#a-propos" class="btn-ghost">Voir notre histoire</a>
+        </div>
+      </div>
+
+      <!-- CSS Art -->
+      <div class="hero__visual" aria-hidden="true">
+        <div class="art-wrap">
+          <div class="art-glow"></div>
+          <div class="art-ring-lg"></div>
+          <div class="art-ring-sm"></div>
+          <div class="art-leaf art-leaf-a"></div>
+          <div class="art-leaf art-leaf-b"></div>
+          <div class="art-cap"></div>
+          <div class="art-body"></div>
+          <div class="art-dot art-dot-a"></div>
+          <div class="art-dot art-dot-b"></div>
+          <div class="art-dot art-dot-c"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">
+    <span>Défiler</span>
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     TRUST BAR
+═══════════════════════════════════════════════════════ -->
+<section class="trust" aria-label="Chiffres clés">
+  <div class="container">
+    <div class="trust__grid">
+
+      <div class="trust-item reveal">
+        <div class="trust-item__icon">
+          <i data-lucide="users" width="19" height="19"></i>
+        </div>
+        <div>
+          <strong>12 000+ clientes</strong>
+          <span>nous font confiance</span>
+        </div>
+      </div>
+
+      <div class="trust-item reveal reveal-d1">
+        <div class="trust-item__icon">
+          <i data-lucide="star" width="19" height="19"></i>
+        </div>
+        <div>
+          <strong>98% satisfaites</strong>
+          <span>après 4 semaines</span>
+        </div>
+      </div>
+
+      <div class="trust-item reveal reveal-d2">
+        <div class="trust-item__icon">
+          <i data-lucide="leaf" width="19" height="19"></i>
+        </div>
+        <div>
+          <strong>Formules vegan</strong>
+          <span>100% cruelty-free</span>
+        </div>
+      </div>
+
+      <div class="trust-item reveal reveal-d3">
+        <div class="trust-item__icon">
+          <i data-lucide="package" width="19" height="19"></i>
+        </div>
+        <div>
+          <strong>Livraison offerte</strong>
+          <span>dès 60 € d'achat</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     PRODUCTS
+═══════════════════════════════════════════════════════ -->
+<section id="produits">
+  <div class="container">
+    <div class="products__header reveal">
+      <p class="section-label">Notre collection</p>
+      <h2 class="section-title">Nos soins signature</h2>
+      <p class="section-sub">Chaque formule est développée avec des actifs botaniques haute concentration pour des résultats visibles dès les premières applications.</p>
+    </div>
+
+    <div class="products__grid">
+
+      <!-- Sérum Vitamine C -->
+      <article class="card card--serum reveal reveal-d1">
+        <div class="card__vis">
+          <div class="shape-drop"></div>
+        </div>
+        <div class="card__body">
+          <span class="card__badge">Best-seller</span>
+          <h3 class="card__name">Sérum Éclat Vitamine C</h3>
+          <p class="card__desc">15% de vitamine C stable pour illuminer, unifier et protéger votre teint au quotidien.</p>
+          <div class="card__foot">
+            <span class="card__price">58 €</span>
+            <button class="card__btn" aria-label="Ajouter Sérum Éclat au panier">Ajouter au panier</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Crème Hydratante -->
+      <article class="card card--creme reveal reveal-d2">
+        <div class="card__vis">
+          <div class="shape-jar"></div>
+        </div>
+        <div class="card__body">
+          <span class="card__badge">Nouveau</span>
+          <h3 class="card__name">Crème Hydratante 48h</h3>
+          <p class="card__desc">Hydratation intense et durable grâce à l'acide hyaluronique tri-moléculaire.</p>
+          <div class="card__foot">
+            <span class="card__price">42 €</span>
+            <button class="card__btn" aria-label="Ajouter Crème Hydratante au panier">Ajouter au panier</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Huile Nuit -->
+      <article class="card card--huile reveal reveal-d3">
+        <div class="card__vis">
+          <div class="shape-bottle"></div>
+        </div>
+        <div class="card__body">
+          <span class="card__badge">Coup de cœur</span>
+          <h3 class="card__name">Huile Précieuse Nuit</h3>
+          <p class="card__desc">Complexe de 7 huiles rares pour régénérer et nourrir en profondeur pendant le sommeil.</p>
+          <div class="card__foot">
+            <span class="card__price">67 €</span>
+            <button class="card__btn" aria-label="Ajouter Huile Nuit au panier">Ajouter au panier</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Starter Kit -->
+      <article class="card card--kit reveal reveal-d4">
+        <div class="card__vis">
+          <div class="shape-kit">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="card__body">
+          <span class="card__badge">Offre spéciale</span>
+          <h3 class="card__name">Starter Kit Découverte</h3>
+          <p class="card__desc">La routine complète en formats voyage : sérum + crème + huile nuit pour commencer.</p>
+          <div class="card__foot">
+            <span class="card__price">89 €</span>
+            <button class="card__btn" aria-label="Ajouter Starter Kit au panier">Ajouter au panier</button>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     ROUTINE
+═══════════════════════════════════════════════════════ -->
+<section id="routine">
+  <div class="container">
+    <div class="routine__header reveal">
+      <p class="section-label">Méthode Luminae</p>
+      <h2 class="section-title">Votre routine en 3 étapes</h2>
+      <p class="section-sub">Une approche scientifique et sensorielle pour maximiser l'efficacité de chaque soin appliqué.</p>
+    </div>
+
+    <div class="routine__row">
+
+      <div class="step reveal">
+        <div class="step__num">1</div>
+        <div class="step__icon">
+          <i data-lucide="droplets" width="26" height="26"></i>
+        </div>
+        <h3 class="step__name">Nettoyer</h3>
+        <p class="step__desc">Éliminez impuretés et sébum sans altérer la barrière cutanée. Une peau propre absorbe mieux tous les actifs qui suivent.</p>
+        <span class="step__prod">
+          <i data-lucide="arrow-right" width="11" height="11"></i>
+          Gel Purifiant Douceur
+        </span>
+      </div>
+
+      <div class="routine__line" aria-hidden="true">
+        <div class="routine__line-inner"></div>
+      </div>
+
+      <div class="step reveal reveal-d2">
+        <div class="step__num">2</div>
+        <div class="step__icon">
+          <i data-lucide="sparkles" width="26" height="26"></i>
+        </div>
+        <h3 class="step__name">Traiter</h3>
+        <p class="step__desc">Appliquez le sérum concentré sur peau encore humide pour une absorption optimale et des résultats amplifiés.</p>
+        <span class="step__prod">
+          <i data-lucide="arrow-right" width="11" height="11"></i>
+          Sérum Éclat Vitamine C
+        </span>
+      </div>
+
+      <div class="routine__line" aria-hidden="true">
+        <div class="routine__line-inner"></div>
+      </div>
+
+      <div class="step reveal reveal-d4">
+        <div class="step__num">3</div>
+        <div class="step__icon">
+          <i data-lucide="sun" width="26" height="26"></i>
+        </div>
+        <h3 class="step__name">Hydrater</h3>
+        <p class="step__desc">Scellez les actifs et renforcez la barrière protectrice. La peau reste souple, lumineuse et protégée toute la journée.</p>
+        <span class="step__prod">
+          <i data-lucide="arrow-right" width="11" height="11"></i>
+          Crème Hydratante 48h
+        </span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════════════════════════ -->
+<section id="avis">
+  <div class="container">
+    <div class="avis__header reveal">
+      <p class="section-label">Témoignages</p>
+      <h2 class="section-title">Elles ont transformé leur peau</h2>
+      <p class="section-sub">Des résultats réels, partagés par notre communauté après 4 semaines de routine Luminae.</p>
+    </div>
+
+    <div class="avis__grid">
+
+      <article class="tcard reveal reveal-d1">
+        <div class="tcard__head">
+          <div class="tcard__av" aria-hidden="true">SL</div>
+          <div>
+            <p class="tcard__name">Sophie L.</p>
+            <p class="tcard__skin">Peau mixte · 34 ans</p>
+          </div>
+        </div>
+        <div class="tcard__stars" aria-label="5 étoiles sur 5">★★★★★</div>
+        <p class="tcard__quote">En seulement trois semaines, mes taches brunes se sont estompées et mon teint est uniformisé comme jamais. Le Sérum Vitamine C est devenu mon indispensable du matin. Je ne peux plus m'en passer.</p>
+      </article>
+
+      <article class="tcard reveal reveal-d2">
+        <div class="tcard__head">
+          <div class="tcard__av" aria-hidden="true">MC</div>
+          <div>
+            <p class="tcard__name">Marie-Claire D.</p>
+            <p class="tcard__skin">Peau sèche · 47 ans</p>
+          </div>
+        </div>
+        <div class="tcard__stars" aria-label="5 étoiles sur 5">★★★★★</div>
+        <p class="tcard__quote">La Crème Hydratante est une révélation. Ma peau ne tire plus, elle est douce au toucher dès le réveil. Et l'Huile Nuit a littéralement effacé mes ridules du contour des yeux en un mois.</p>
+      </article>
+
+      <article class="tcard reveal reveal-d3">
+        <div class="tcard__head">
+          <div class="tcard__av" aria-hidden="true">AR</div>
+          <div>
+            <p class="tcard__name">Anaïs R.</p>
+            <p class="tcard__skin">Peau sensible · 28 ans</p>
+          </div>
+        </div>
+        <div class="tcard__stars" aria-label="5 étoiles sur 5">★★★★★</div>
+        <p class="tcard__quote">En tant que peau réactive, j'avais peur d'essayer. Mais le Starter Kit m'a convaincue dès la première application : zéro irritation, 100% confort. Je ne reviendrai jamais en arrière.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     ABOUT
+═══════════════════════════════════════════════════════ -->
+<section id="a-propos">
+  <div class="container">
+    <div class="about__grid">
+
+      <div class="about__text reveal">
+        <p class="section-label">Notre histoire</p>
+        <h2 class="section-title">La science au service de la nature</h2>
+        <p>Née en 2018 dans un laboratoire parisien, Luminae est le fruit de la rencontre entre une dermatologue passionnée et une botaniste engagée. Ensemble, elles ont développé une approche unique : marier la rigueur scientifique aux richesses végétales pour créer des soins d'exception.</p>
+        <p>Chaque formule est testée pendant 18 mois minimum en conditions cliniques avant d'être commercialisée. Parce que votre peau mérite ce qu'il y a de mieux — et uniquement ce qui fonctionne réellement.</p>
+        <a href="#produits" class="btn-primary">Explorer la collection</a>
+      </div>
+
+      <div class="about__visual reveal reveal-d2">
+        <div class="about__circle-wrap" aria-hidden="true">
+          <div class="about__circle-outer"></div>
+          <div class="about__circle-inner"></div>
+          <div class="about__year">
+            <strong>2018</strong>
+            <span>Fondée à Paris</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════════
+     CHATBOT WIDGET
+═══════════════════════════════════════════════════════ -->
+<!-- CHATBOT INTEGRATION POINT — inject your JS logic here -->
+<button class="chat-btn" id="chat-btn" aria-label="Ouvrir le chat avec Luna" aria-haspopup="dialog" aria-expanded="false">
+  <i data-lucide="message-circle" width="19" height="19"></i>
+  <span class="chat-btn__label">Besoin d'aide ?</span>
+  <div class="chat-btn__dot" aria-hidden="true"></div>
+</button>
+
+<div class="chatbot-panel" id="chatbot-container" role="dialog" aria-modal="true" aria-label="Chat avec Luna" aria-hidden="true">
+
+  <div class="chatbot-panel__hdr">
+    <div class="chatbot-panel__hdr-l">
+      <div class="chatbot-av" aria-hidden="true">✨</div>
+      <div>
+        <p class="chatbot-panel__name">Luna · Conseillère beauté</p>
+        <p class="chatbot-panel__status">En ligne — répond en quelques secondes</p>
+      </div>
+    </div>
+    <button class="chat-close" id="chat-close" aria-label="Fermer le chat">
+      <i data-lucide="x" width="14" height="14"></i>
+    </button>
+  </div>
+
+  <div id="chatbot-messages" role="log" aria-live="polite" aria-label="Messages">
+    <div class="chat-welcome">
+      <div class="chat-welcome__emoji">💆‍♀️</div>
+      <div class="chat-welcome__text">
+        <strong>Bonjour ! Je suis Luna.</strong>
+        Je suis là pour vous aider à trouver la routine idéale pour votre type de peau. Posez-moi toutes vos questions !
+      </div>
+    </div>
+  </div>
+
+  <div class="chatbot-panel__ftr">
+    <input
+      type="text"
+      id="chatbot-input"
+      placeholder="Écrivez votre message…"
+      aria-label="Votre message"
+      autocomplete="off"
+    />
+    <button id="chatbot-send" aria-label="Envoyer le message">
+      <i data-lucide="send" width="15" height="15"></i>
+    </button>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer__grid">
+
+      <!-- Brand -->
+      <div>
+        <a href="#" class="footer__logo">Lumi<span>næ</span></a>
+        <p class="footer__tagline">La science au service de la nature.</p>
+        <nav class="footer__socials" aria-label="Réseaux sociaux">
+          <a href="#" aria-label="Instagram">
+            <i data-lucide="instagram" width="17" height="17"></i>
+          </a>
+          <a href="#" aria-label="TikTok">
+            <!-- TikTok (not in Lucide — custom path) -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Pinterest">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.03-2.83.19-.76 1.27-5.41 1.27-5.41s-.32-.65-.32-1.61c0-1.51.88-2.64 1.96-2.64.93 0 1.38.7 1.38 1.54 0 .94-.6 2.34-.91 3.64-.26 1.09.54 1.97 1.6 1.97 1.92 0 3.2-2.47 3.2-5.39 0-2.22-1.49-3.88-3.95-3.88-2.88 0-4.68 2.16-4.68 4.57 0 .83.24 1.41.62 1.86.18.21.2.3.13.54-.04.18-.15.61-.19.78-.06.25-.25.34-.46.25-1.32-.54-1.93-1.99-1.93-3.63 0-2.69 2.27-5.92 6.77-5.92 3.63 0 5.99 2.64 5.99 5.47 0 3.74-2.07 6.55-5.12 6.55-1.02 0-1.99-.55-2.32-1.17l-.67 2.56c-.24.93-.89 2.1-1.33 2.81.74.23 1.52.35 2.33.35 5.52 0 10-4.48 10-10S17.52 2 12 2z"/>
+            </svg>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Produits -->
+      <div>
+        <p class="footer__col-title">Produits</p>
+        <ul class="footer__links">
+          <li><a href="#">Sérum Vitamine C</a></li>
+          <li><a href="#">Crème Hydratante</a></li>
+          <li><a href="#">Huile Précieuse Nuit</a></li>
+          <li><a href="#">Starter Kit</a></li>
+          <li><a href="#">Nouveautés</a></li>
+        </ul>
+      </div>
+
+      <!-- Aide -->
+      <div>
+        <p class="footer__col-title">Aide</p>
+        <ul class="footer__links">
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="a-propos.html">À propos</a></li>
+          <li><a href="#">Suivi de commande</a></li>
+          <li><a href="#">Retours & échanges</a></li>
+          <li><a href="#">Nous contacter</a></li>
+        </ul>
+      </div>
+
+      <!-- Légal -->
+      <div>
+        <p class="footer__col-title">Légal</p>
+        <ul class="footer__links">
+          <li><a href="#">Mentions légales</a></li>
+          <li><a href="#">Confidentialité</a></li>
+          <li><a href="#">CGV</a></li>
+          <li><a href="#">Gestion des cookies</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer__bottom">
+      © 2025 Luminae · Fait avec ❤️ en France
+    </div>
+  </div>
+</footer>
+
+<!-- Lucide Icons CDN -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+<script>
+  /* ── Init icons ─────────────────────────────────────── */
+  lucide.createIcons();
+
+  /* ── Navbar: scroll state ────────────────────────────── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  /* ── Navbar: hamburger / drawer ─────────────────────── */
+  const burger = document.getElementById('burger');
+  const drawer = document.getElementById('drawer');
+
+  function openDrawer() {
+    burger.classList.add('open');
+    drawer.classList.add('open');
+    burger.setAttribute('aria-expanded', 'true');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    burger.classList.remove('open');
+    drawer.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  burger.addEventListener('click', () => {
+    drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+  });
+
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+  });
+
+  /* ── Scroll-reveal via IntersectionObserver ─────────── */
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ── Smooth scroll with navbar offset ───────────────── */
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', e => {
+      const id = anchor.getAttribute('href').slice(1);
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      const offset = navbar.offsetHeight + 16;
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+    });
+  });
+
+  /* ── Chatbot widget ──────────────────────────────────── */
+  const chatBtn       = document.getElementById('chat-btn');
+  const chatPanel     = document.getElementById('chatbot-container');
+  const chatClose     = document.getElementById('chat-close');
+  const chatInput     = document.getElementById('chatbot-input');
+  const chatSend      = document.getElementById('chatbot-send');
+  const chatMessages  = document.getElementById('chatbot-messages');
+
+  function openChat() {
+    chatPanel.classList.add('open');
+    chatPanel.setAttribute('aria-hidden', 'false');
+    chatBtn.setAttribute('aria-expanded', 'true');
+    setTimeout(() => chatInput.focus(), 260);
+  }
+
+  function closeChat() {
+    chatPanel.classList.remove('open');
+    chatPanel.setAttribute('aria-hidden', 'true');
+    chatBtn.setAttribute('aria-expanded', 'false');
+    chatBtn.focus();
+  }
+
+  chatBtn.addEventListener('click', () => chatPanel.classList.contains('open') ? closeChat() : openChat());
+  chatClose.addEventListener('click', closeChat);
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && chatPanel.classList.contains('open')) closeChat();
+  });
+
+  /* Send message — UI only, no AI logic */
+  function sendMessage() {
+    const text = chatInput.value.trim();
+    if (!text) return;
+
+    // User bubble
+    const bubble = document.createElement('div');
+    bubble.setAttribute('role', 'listitem');
+    Object.assign(bubble.style, {
+      alignSelf:    'flex-end',
+      background:   'var(--brand)',
+      color:        'var(--white)',
+      padding:      '10px 14px',
+      borderRadius: '18px 18px 4px 18px',
+      fontSize:     '0.875rem',
+      maxWidth:     '80%',
+      lineHeight:   '1.5',
+      wordBreak:    'break-word',
+    });
+    bubble.textContent = text;
+    chatMessages.appendChild(bubble);
+
+    chatInput.value = '';
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // CHATBOT INTEGRATION POINT — inject AI response logic below this line
+  }
+
+  chatSend.addEventListener('click', sendMessage);
+  chatInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+</script>
+
+</body>
+</html>

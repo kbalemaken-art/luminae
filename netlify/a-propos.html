@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>À propos — Luminae</title>
+  <meta name="description" content="L'histoire de Luminae, notre philosophie, nos valeurs et l'équipe qui crée vos soins de beauté premium depuis Lyon." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ══════════════════════════════════════════════════════
+       SHARED DESIGN SYSTEM
+    ══════════════════════════════════════════════════════ */
+    :root {
+      --brand:        #C8A97E;
+      --brand-dark:   #8C6A47;
+      --brand-light:  #F5EFE6;
+      --neutral-900:  #1A1109;
+      --neutral-600:  #6B5744;
+      --neutral-100:  #FAF7F4;
+      --white:        #FFFFFF;
+      --sp-1: 8px; --sp-2: 16px; --sp-3: 24px; --sp-4: 32px;
+      --sp-6: 48px; --sp-8: 64px; --sp-12: 96px;
+      --font-heading: 'Playfair Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+      --transition:   200ms ease;
+      --radius-sm: 8px; --radius-md: 16px; --radius-lg: 24px; --radius-full: 9999px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html  { scroll-behavior: smooth; }
+    body  { font-family: var(--font-body); color: var(--neutral-900); background: var(--white); line-height: 1.6; overflow-x: hidden; }
+    a     { text-decoration: none; color: inherit; }
+    ul    { list-style: none; }
+    button { cursor: pointer; border: none; background: none; font-family: var(--font-body); }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 var(--sp-3); }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; background: var(--brand); color: var(--white);
+      border-radius: var(--radius-full); font-weight: 500; font-size: 0.93rem;
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+    .btn-primary:hover { background: var(--brand-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200,169,126,.4); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 28px; background: transparent; color: var(--white);
+      border: 1.5px solid rgba(255,255,255,.4); border-radius: var(--radius-full);
+      font-weight: 500; font-size: 0.93rem;
+      transition: border-color var(--transition), background var(--transition), transform var(--transition);
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,.8); background: rgba(255,255,255,.1); transform: translateY(-2px); }
+
+    /* Section label */
+    .section-label {
+      display: inline-flex; align-items: center; gap: var(--sp-2);
+      font-size: 0.72rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--brand-dark); margin-bottom: var(--sp-1);
+    }
+    .section-label::before, .section-label::after { content: ''; display: block; width: 28px; height: 1.5px; background: var(--brand); opacity: .55; }
+
+    /* Scroll-reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: .12s; }
+    .reveal-d2 { transition-delay: .24s; }
+    .reveal-d3 { transition-delay: .36s; }
+
+    /* ══════════════════════════════════════════════════════
+       NAVBAR
+    ══════════════════════════════════════════════════════ */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 18px 0;
+      transition: background .3s, backdrop-filter .3s, box-shadow .3s, padding .3s;
+    }
+    .navbar.scrolled {
+      padding: 12px 0;
+      background: rgba(255,255,255,.93);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 1px 0 rgba(0,0,0,.06);
+    }
+    .navbar__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); }
+    .navbar__logo { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; letter-spacing: .02em; color: var(--neutral-900); }
+    .navbar__logo span { color: var(--brand); }
+    .navbar__links { display: flex; align-items: center; gap: var(--sp-4); }
+    .navbar__links a {
+      font-size: 0.88rem; font-weight: 500; color: var(--neutral-600);
+      position: relative; transition: color var(--transition);
+    }
+    .navbar__links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1.5px; background: var(--brand); transition: width var(--transition); }
+    .navbar__links a:hover, .navbar__links a.nav-active { color: var(--neutral-900); }
+    .navbar__links a.nav-active::after { width: 100%; }
+    .navbar__links a:hover::after { width: 100%; }
+    .navbar__cta { padding: 10px 22px; font-size: 0.86rem; }
+
+    .navbar__burger { display: none; flex-direction: column; gap: 5px; padding: 6px; }
+    .navbar__burger span { display: block; width: 22px; height: 2px; background: var(--neutral-900); border-radius: 2px; transition: transform var(--transition), opacity var(--transition); }
+    .navbar__burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .navbar__burger.open span:nth-child(2) { opacity: 0; }
+    .navbar__burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .navbar__drawer {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99;
+      background: rgba(255,255,255,.97); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: var(--sp-3);
+      opacity: 0; pointer-events: none; transition: opacity .25s ease;
+    }
+    .navbar__drawer.open { opacity: 1; pointer-events: all; }
+    .navbar__drawer a { font-family: var(--font-heading); font-size: 2rem; color: var(--neutral-900); transition: color var(--transition); }
+    .navbar__drawer a.nav-active { color: var(--brand-dark); }
+    .navbar__drawer a:hover { color: var(--brand-dark); }
+    .navbar__drawer .btn-primary { font-family: var(--font-body); font-size: 0.95rem; margin-top: var(--sp-2); }
+
+    @media (max-width: 768px) {
+      .navbar__links, .navbar__cta { display: none; }
+      .navbar__burger { display: flex; }
+    }
+
+    /* ══════════════════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════════════════ */
+    footer { background: var(--neutral-900); color: rgba(255,255,255,.65); padding: var(--sp-8) 0 0; }
+    .footer__grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: var(--sp-6); padding-bottom: var(--sp-8); border-bottom: 1px solid rgba(255,255,255,.07); }
+    .footer__logo { font-family: var(--font-heading); font-size: 1.55rem; font-weight: 700; color: var(--white); letter-spacing: .02em; display: block; margin-bottom: var(--sp-1); }
+    .footer__logo span { color: var(--brand); }
+    .footer__tagline { font-style: italic; font-size: .85rem; color: rgba(255,255,255,.45); margin-bottom: var(--sp-3); }
+    .footer__socials { display: flex; gap: var(--sp-2); }
+    .footer__socials a { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.07); color: rgba(255,255,255,.55); display: flex; align-items: center; justify-content: center; transition: background var(--transition), color var(--transition); }
+    .footer__socials a:hover { background: var(--brand); color: var(--white); }
+    .footer__col-title { font-family: var(--font-heading); font-size: .97rem; font-weight: 600; color: var(--white); margin-bottom: var(--sp-3); }
+    .footer__links { display: flex; flex-direction: column; gap: var(--sp-1); }
+    .footer__links a { font-size: .855rem; color: rgba(255,255,255,.5); transition: color var(--transition); }
+    .footer__links a:hover { color: var(--brand); }
+    .footer__bottom { text-align: center; padding: var(--sp-3) 0; font-size: .78rem; color: rgba(255,255,255,.3); }
+    @media (max-width: 900px) { .footer__grid { grid-template-columns: 1fr 1fr; gap: var(--sp-4); } }
+    @media (max-width: 480px) { .footer__grid { grid-template-columns: 1fr; } }
+
+    /* ══════════════════════════════════════════════════════
+       CHATBOT WIDGET
+    ══════════════════════════════════════════════════════ */
+    .chat-btn {
+      position: fixed; bottom: var(--sp-3); right: var(--sp-3); z-index: 200;
+      display: flex; align-items: center; gap: 9px; padding: 13px 20px;
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+      color: var(--white); border-radius: var(--radius-full);
+      font-size: .875rem; font-weight: 500;
+      box-shadow: 0 4px 22px rgba(200,169,126,.5);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .chat-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200,169,126,.6); }
+    .chat-btn__dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:.7;transform:scale(1.2);} }
+    .chat-btn__dot { animation: pulse 2s infinite; }
+    .chatbot-panel {
+      position: fixed; bottom: 88px; right: var(--sp-3); z-index: 200;
+      width: 380px; height: 520px; background: var(--white); border-radius: var(--radius-lg);
+      box-shadow: 0 20px 60px rgba(0,0,0,.15), 0 0 0 1px rgba(200,169,126,.12);
+      display: flex; flex-direction: column; overflow: hidden;
+      opacity: 0; pointer-events: none;
+      transform: translateY(16px) scale(.96); transform-origin: bottom right;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .chatbot-panel.open { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
+    .chatbot-panel__hdr { padding: 14px var(--sp-3); background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%); color: var(--white); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .chatbot-panel__hdr-l { display: flex; align-items: center; gap: var(--sp-2); }
+    .chatbot-av { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.2); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+    .chatbot-panel__name   { font-weight: 600; font-size: .92rem; }
+    .chatbot-panel__status { font-size: .72rem; opacity: .85; }
+    .chat-close { width: 27px; height: 27px; border-radius: 50%; background: rgba(255,255,255,.18); color: var(--white); display: flex; align-items: center; justify-content: center; transition: background var(--transition); }
+    .chat-close:hover { background: rgba(255,255,255,.3); }
+    #chatbot-messages { flex: 1; overflow-y: auto; padding: var(--sp-3); background: #FAFAFA; display: flex; flex-direction: column; gap: var(--sp-2); }
+    .chat-welcome { text-align: center; padding: var(--sp-4) var(--sp-2); }
+    .chat-welcome__emoji { font-size: 2rem; margin-bottom: var(--sp-2); }
+    .chat-welcome__text { font-size: .865rem; color: var(--neutral-600); line-height: 1.6; }
+    .chat-welcome__text strong { display: block; color: var(--neutral-900); font-weight: 600; margin-bottom: 4px; }
+    .chatbot-panel__ftr { padding: var(--sp-2); border-top: 1px solid rgba(0,0,0,.06); display: flex; gap: var(--sp-1); background: var(--white); flex-shrink: 0; }
+    #chatbot-input { flex: 1; padding: 10px 14px; border: 1.5px solid rgba(200,169,126,.3); border-radius: var(--radius-full); font-family: var(--font-body); font-size: .875rem; color: var(--neutral-900); background: var(--neutral-100); outline: none; transition: border-color var(--transition); }
+    #chatbot-input:focus { border-color: var(--brand); }
+    #chatbot-input::placeholder { color: var(--neutral-600); }
+    #chatbot-send { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; background: var(--brand); color: var(--white); display: flex; align-items: center; justify-content: center; transition: background var(--transition); }
+    #chatbot-send:hover { background: var(--brand-dark); }
+    @media (max-width: 480px) {
+      .chatbot-panel { width: calc(100vw - 32px); right: var(--sp-2); bottom: 76px; height: 480px; }
+      .chat-btn__label { display: none; }
+      .chat-btn { padding: 14px; border-radius: 50%; width: 52px; height: 52px; justify-content: center; }
+      .chat-btn__dot { display: none; }
+    }
+
+    /* ══════════════════════════════════════════════════════
+       PAGE HERO (compact, 50vh)
+    ══════════════════════════════════════════════════════ */
+    .page-hero {
+      min-height: 50vh;
+      display: flex; align-items: center;
+      padding: 120px 0 var(--sp-8);
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, var(--neutral-100) 0%, var(--brand-light) 55%, #EDE0CF 100%);
+    }
+    .page-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 65% 40%, rgba(200,169,126,.22) 0%, transparent 60%);
+    }
+    .page-hero__inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 380px; gap: var(--sp-8); align-items: center;
+    }
+
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--neutral-600); margin-bottom: var(--sp-3); }
+    .breadcrumb a { color: var(--neutral-600); transition: color var(--transition); }
+    .breadcrumb a:hover { color: var(--brand-dark); }
+    .breadcrumb span { opacity: .5; }
+    .breadcrumb strong { color: var(--neutral-900); font-weight: 500; }
+
+    .page-hero__eyebrow { font-size: .72rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--brand-dark); margin-bottom: var(--sp-2); display: flex; align-items: center; gap: 10px; }
+    .page-hero__eyebrow::before { content: ''; display: block; width: 24px; height: 1.5px; background: var(--brand); }
+
+    .page-hero__title { font-family: var(--font-heading); font-size: clamp(1.6rem, 3.5vw, 2.5rem); line-height: 1.25; margin-bottom: var(--sp-3); }
+    .page-hero__title em { color: var(--brand-dark); font-style: italic; }
+
+    /* Hero CSS botanical art */
+    .hero-art { position: relative; height: 300px; display: flex; align-items: center; justify-content: center; }
+    .hart-ring-a { position: absolute; width: 240px; height: 240px; border-radius: 50%; border: 2px solid rgba(200,169,126,.28); background: linear-gradient(135deg, rgba(200,169,126,.1) 0%, rgba(245,239,230,.7) 100%); }
+    .hart-ring-b { position: absolute; width: 180px; height: 180px; border-radius: 50%; border: 1px dashed rgba(200,169,126,.4); }
+    .hart-ring-c { position: absolute; width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, rgba(200,169,126,.25) 0%, rgba(140,106,71,.12) 100%); }
+
+    /* Leaf shapes */
+    .hart-leaf { position: absolute; border-radius: 50% 0 50% 0; background: linear-gradient(135deg, rgba(200,169,126,.3) 0%, rgba(140,106,71,.12) 100%); border: 1px solid rgba(200,169,126,.35); }
+    .hart-leaf-a { width: 50px; height: 72px; top: 20px; right: 40px; transform: rotate(20deg); }
+    .hart-leaf-b { width: 34px; height: 50px; bottom: 30px; left: 30px; transform: rotate(-25deg); }
+    .hart-leaf-c { width: 28px; height: 42px; top: 50px; left: 50px; transform: rotate(50deg); opacity: .6; }
+
+    /* Dots */
+    .hart-dot { position: absolute; border-radius: 50%; }
+    .hart-dot-a { width: 16px; height: 16px; background: var(--brand); top: 36px; left: 80px; opacity: .55; }
+    .hart-dot-b { width: 10px; height: 10px; background: var(--brand-dark); bottom: 52px; right: 60px; opacity: .4; }
+    .hart-dot-c { width: 24px; height: 24px; background: var(--brand-light); border: 2px solid var(--brand); bottom: 40px; right: 35px; }
+
+    @keyframes floatY  { 0%,100% { transform: translateY(0); }  50% { transform: translateY(-8px); } }
+    @keyframes floatRA { 0%,100% { transform: translateY(0) rotate(20deg); }  50% { transform: translateY(-6px) rotate(20deg); } }
+    @keyframes floatRB { 0%,100% { transform: translateY(0) rotate(-25deg); } 50% { transform: translateY(-6px) rotate(-25deg); } }
+    .hart-leaf-a { animation: floatRA 5s ease-in-out infinite; }
+    .hart-leaf-b { animation: floatRB 6s ease-in-out infinite 1s; }
+    .hart-dot-a  { animation: floatY  3.5s ease-in-out infinite .5s; }
+    .hart-dot-c  { animation: floatY  4.5s ease-in-out infinite; }
+
+    @media (max-width: 860px) {
+      .page-hero__inner { grid-template-columns: 1fr; }
+      .hero-art { height: 200px; order: -1; }
+      .hart-ring-a { width: 170px; height: 170px; }
+      .hart-ring-b { width: 130px; height: 130px; }
+      .hart-ring-c { width: 80px; height: 80px; }
+    }
+
+    /* ══════════════════════════════════════════════════════
+       SECTION 1 — HISTORY
+    ══════════════════════════════════════════════════════ */
+    .history { padding: var(--sp-12) 0; background: var(--white); }
+    .history__grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-8); align-items: center; }
+    .history__text p { color: var(--neutral-600); line-height: 1.85; margin-bottom: var(--sp-3); font-size: .97rem; }
+    .history__text p:last-child { margin-bottom: 0; }
+
+    /* CSS visual: abstract laboratory-meets-botany */
+    .history-visual { display: flex; justify-content: center; }
+    .hist-frame {
+      position: relative; width: 300px; height: 320px;
+    }
+    .hist-bg {
+      position: absolute; inset: 0; border-radius: 32px;
+      background: linear-gradient(145deg, var(--brand-light) 0%, rgba(200,169,126,.2) 100%);
+      border: 1.5px solid rgba(200,169,126,.25);
+    }
+    .hist-circle-a {
+      position: absolute; width: 120px; height: 120px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(200,169,126,.35) 0%, rgba(140,106,71,.15) 100%);
+      border: 1.5px solid rgba(200,169,126,.3);
+      top: 30px; left: 30px;
+    }
+    .hist-circle-b {
+      position: absolute; width: 80px; height: 80px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255,255,255,.9) 0%, rgba(200,169,126,.3) 100%);
+      border: 1px solid rgba(200,169,126,.4);
+      bottom: 50px; right: 30px;
+    }
+    .hist-line {
+      position: absolute; width: 1.5px; height: 100px;
+      background: linear-gradient(180deg, var(--brand) 0%, transparent 100%);
+      opacity: .3; bottom: 80px; left: 50%;
+    }
+    .hist-badge {
+      position: absolute; bottom: 20px; left: 20px;
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 12px 16px; box-shadow: 0 4px 16px rgba(140,106,71,.15);
+      border-left: 3px solid var(--brand);
+    }
+    .hist-badge strong { display: block; font-family: var(--font-heading); font-size: 1.4rem; color: var(--brand); line-height: 1; }
+    .hist-badge span   { font-size: .72rem; color: var(--neutral-600); letter-spacing: .08em; text-transform: uppercase; }
+    .hist-badge-2 {
+      position: absolute; top: 20px; right: 20px;
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 10px 14px; box-shadow: 0 4px 16px rgba(140,106,71,.12);
+      border-left: 3px solid var(--brand-dark);
+    }
+    .hist-badge-2 strong { display: block; font-family: var(--font-heading); font-size: 1.1rem; color: var(--brand-dark); line-height: 1; }
+    .hist-badge-2 span   { font-size: .7rem; color: var(--neutral-600); letter-spacing: .08em; text-transform: uppercase; }
+
+    @media (max-width: 768px) {
+      .history__grid { grid-template-columns: 1fr; }
+      .history-visual { order: -1; }
+      .hist-frame { width: 260px; height: 280px; }
+    }
+
+    /* ══════════════════════════════════════════════════════
+       SECTION 2 — VALEURS
+    ══════════════════════════════════════════════════════ */
+    .values { padding: var(--sp-12) 0; background: var(--neutral-100); }
+    .values__header { text-align: center; margin-bottom: var(--sp-8); }
+    .values__header .section-sub { color: var(--neutral-600); font-size: 1.02rem; max-width: 520px; margin: 0 auto; }
+
+    .values__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); }
+    .value-card {
+      background: var(--white); border-radius: var(--radius-lg); padding: var(--sp-4);
+      border-top: 3px solid var(--brand);
+      box-shadow: 0 2px 16px rgba(140,106,71,.07);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .value-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(140,106,71,.14); }
+    .value-card__icon { font-size: 2rem; margin-bottom: var(--sp-3); display: block; line-height: 1; }
+    .value-card__title { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 600; margin-bottom: var(--sp-2); }
+    .value-card__text { font-size: .88rem; color: var(--neutral-600); line-height: 1.75; }
+    @media (max-width: 768px) { .values__grid { grid-template-columns: 1fr; } }
+
+    /* ══════════════════════════════════════════════════════
+       SECTION 3 — ÉQUIPE
+    ══════════════════════════════════════════════════════ */
+    .team { padding: var(--sp-12) 0; background: var(--white); }
+    .team__header { text-align: center; margin-bottom: var(--sp-8); }
+    .team__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); }
+
+    .team-card {
+      display: flex; gap: var(--sp-3); align-items: flex-start;
+      padding: var(--sp-4); background: var(--neutral-100); border-radius: var(--radius-lg);
+      border: 1px solid rgba(200,169,126,.12);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .team-card:hover { box-shadow: 0 8px 28px rgba(140,106,71,.12); transform: translateY(-3px); }
+
+    .team-av {
+      width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+      color: var(--white); font-weight: 600; font-size: 1.05rem;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 12px rgba(200,169,126,.4);
+    }
+    .team-info__name { font-family: var(--font-heading); font-size: 1.05rem; font-weight: 600; margin-bottom: 2px; }
+    .team-info__role { font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--brand-dark); margin-bottom: var(--sp-1); }
+    .team-info__bio  { font-size: .84rem; color: var(--neutral-600); line-height: 1.65; }
+
+    @media (max-width: 860px) { .team__grid { grid-template-columns: 1fr; } }
+
+    /* ══════════════════════════════════════════════════════
+       SECTION 4 — STATS BAND
+    ══════════════════════════════════════════════════════ */
+    .stats {
+      padding: var(--sp-8) 0;
+      background: linear-gradient(135deg, var(--neutral-900) 0%, #2D1A0A 100%);
+    }
+    .stats__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-4); text-align: center; }
+    .stat-item__num {
+      display: block; font-family: var(--font-heading); font-size: clamp(2.2rem, 4vw, 3rem);
+      font-weight: 700; color: var(--brand); line-height: 1; margin-bottom: var(--sp-1);
+    }
+    .stat-item__label { font-size: .8rem; color: rgba(255,255,255,.55); letter-spacing: .08em; text-transform: uppercase; }
+    @media (max-width: 640px) { .stats__grid { grid-template-columns: 1fr 1fr; gap: var(--sp-6) var(--sp-4); } }
+
+    /* ══════════════════════════════════════════════════════
+       SECTION 5 — CERTIFICATIONS
+    ══════════════════════════════════════════════════════ */
+    .certs { padding: var(--sp-12) 0; background: var(--brand-light); }
+    .certs__header { text-align: center; margin-bottom: var(--sp-8); }
+    .certs__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-4); }
+
+    .cert-badge {
+      background: var(--white); border-radius: var(--radius-lg); padding: var(--sp-4);
+      text-align: center; border: 1.5px solid rgba(200,169,126,.2);
+      display: flex; flex-direction: column; align-items: center; gap: var(--sp-2);
+      transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+    }
+    .cert-badge:hover { box-shadow: 0 8px 24px rgba(140,106,71,.14); transform: translateY(-3px); border-color: var(--brand); }
+    .cert-badge__icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand-light) 0%, rgba(200,169,126,.25) 100%);
+      border: 2px solid rgba(200,169,126,.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+    .cert-badge__name { font-family: var(--font-heading); font-size: 1rem; font-weight: 600; color: var(--neutral-900); line-height: 1.2; }
+    .cert-badge__desc { font-size: .78rem; color: var(--neutral-600); line-height: 1.5; }
+
+    @media (max-width: 768px) { .certs__grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 420px) { .certs__grid { grid-template-columns: 1fr; } }
+
+    /* ══════════════════════════════════════════════════════
+       BOTTOM CTA BAND
+    ══════════════════════════════════════════════════════ */
+    .cta-band {
+      padding: var(--sp-8) 0; text-align: center;
+      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+      color: var(--white);
+    }
+    .cta-band__inner { max-width: 580px; margin: 0 auto; }
+    .cta-band__title { font-family: var(--font-heading); font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: var(--sp-2); }
+    .cta-band__sub   { opacity: .85; font-size: .97rem; margin-bottom: var(--sp-4); line-height: 1.6; }
+    .cta-band__btn   { display: inline-flex; align-items: center; gap: 8px; padding: 13px 32px; background: var(--white); color: var(--brand-dark); border-radius: var(--radius-full); font-weight: 600; font-size: .93rem; transition: transform var(--transition), box-shadow var(--transition); }
+    .cta-band__btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+  </style>
+  <script src="chatbot.js" defer></script>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════════════ -->
+<header>
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
+    <div class="container">
+      <div class="navbar__inner">
+        <a href="index.html" class="navbar__logo">Lumi<span>næ</span></a>
+        <ul class="navbar__links" role="list">
+          <li><a href="index.html#produits">Produits</a></li>
+          <li><a href="index.html#routine">Routine</a></li>
+          <li><a href="index.html#avis">Avis</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="a-propos.html">À propos</a></li>
+        </ul>
+        <a href="index.html#produits" class="btn-primary navbar__cta">Découvrir ma routine</a>
+        <button class="navbar__burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="drawer">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="navbar__drawer" id="drawer" role="dialog" aria-label="Menu" aria-hidden="true">
+    <a href="index.html#produits">Produits</a>
+    <a href="index.html#routine">Routine</a>
+    <a href="index.html#avis">Avis</a>
+    <a href="faq.html">FAQ</a>
+    <a href="a-propos.html">À propos</a>
+    <a href="index.html#produits" class="btn-primary">Découvrir ma routine</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE HERO
+═══════════════════════════════════════════════════ -->
+<section class="page-hero" aria-label="En-tête de page">
+  <div class="container">
+    <div class="page-hero__inner">
+      <div>
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+          <a href="index.html">Accueil</a>
+          <span aria-hidden="true">›</span>
+          <strong aria-current="page">À propos</strong>
+        </nav>
+        <p class="page-hero__eyebrow">Notre histoire</p>
+        <h1 class="page-hero__title">
+          Née d'une conviction : la peau n'a besoin que du <em>meilleur de la nature.</em>
+        </h1>
+      </div>
+
+      <!-- CSS botanical art -->
+      <div class="hero-art" aria-hidden="true">
+        <div class="hart-ring-a"></div>
+        <div class="hart-ring-b"></div>
+        <div class="hart-ring-c"></div>
+        <div class="hart-leaf hart-leaf-a"></div>
+        <div class="hart-leaf hart-leaf-b"></div>
+        <div class="hart-leaf hart-leaf-c"></div>
+        <div class="hart-dot hart-dot-a"></div>
+        <div class="hart-dot hart-dot-b"></div>
+        <div class="hart-dot hart-dot-c"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 1 — HISTOIRE
+═══════════════════════════════════════════════════ -->
+<section class="history">
+  <div class="container">
+    <div class="history__grid">
+      <div class="history__text reveal">
+        <p class="section-label">Fondation</p>
+        <h2 style="font-family:var(--font-heading);font-size:clamp(1.7rem,3vw,2.4rem);line-height:1.25;margin-bottom:var(--sp-4);">L'histoire de Luminae</h2>
+        <p>Luminae est née en 2019 dans un laboratoire lyonnais, de la rencontre entre Sophie Arnaud, biochimiste passionnée de botanique, et Marc Lefèvre, entrepreneur convaincu que la cosmétique pouvait être à la fois efficace, éthique et transparente.</p>
+        <p>Après 3 ans de recherche et plus de 200 formulations testées, la première gamme Luminae est lancée en 2022 avec un seul objectif : des produits qui fonctionnent vraiment, sans compromis sur la naturalité ni sur la science.</p>
+        <p>Aujourd'hui, Luminae c'est 8 soins iconiques, 12 000 clientes fidèles et un laboratoire certifié Ecocert — toujours basé à Lyon, toujours guidé par les mêmes valeurs fondatrices.</p>
+      </div>
+
+      <div class="history-visual reveal reveal-d2">
+        <div class="hist-frame" aria-hidden="true">
+          <div class="hist-bg"></div>
+          <div class="hist-circle-a"></div>
+          <div class="hist-circle-b"></div>
+          <div class="hist-line"></div>
+          <div class="hist-badge">
+            <strong>2019</strong>
+            <span>Fondée à Lyon</span>
+          </div>
+          <div class="hist-badge-2">
+            <strong>200+</strong>
+            <span>Formules testées</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 2 — VALEURS
+═══════════════════════════════════════════════════ -->
+<section class="values">
+  <div class="container">
+    <div class="values__header reveal">
+      <p class="section-label">Ce qui nous guide</p>
+      <h2 style="font-family:var(--font-heading);font-size:clamp(1.7rem,3vw,2.4rem);margin-bottom:var(--sp-2);">Nos valeurs</h2>
+      <p class="section-sub">Trois principes fondateurs, sans exception et sans compromis.</p>
+    </div>
+
+    <div class="values__grid">
+      <article class="value-card reveal reveal-d1">
+        <span class="value-card__icon" aria-hidden="true">🌱</span>
+        <h3 class="value-card__title">Naturalité sans compromis</h3>
+        <p class="value-card__text">Minimum 95% d'ingrédients d'origine naturelle dans chaque formule. Nous refusons les raccourcis chimiques quand la nature fait mieux — et elle fait souvent mieux.</p>
+      </article>
+
+      <article class="value-card reveal reveal-d2">
+        <span class="value-card__icon" aria-hidden="true">🔬</span>
+        <h3 class="value-card__title">Efficacité prouvée</h3>
+        <p class="value-card__text">Chaque produit est soumis à des tests cliniques sur panel humain avant commercialisation. Pas de promesses sans preuves. Pas de résultats sans données.</p>
+      </article>
+
+      <article class="value-card reveal reveal-d3">
+        <span class="value-card__icon" aria-hidden="true">♻️</span>
+        <h3 class="value-card__title">Responsabilité totale</h3>
+        <p class="value-card__text">Emballages recyclables, recharges disponibles, bilan carbone compensé. Parce que prendre soin de sa peau ne doit pas abîmer la planète que nous partageons.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 3 — ÉQUIPE
+═══════════════════════════════════════════════════ -->
+<section class="team">
+  <div class="container">
+    <div class="team__header reveal">
+      <p class="section-label">Les visages de Luminae</p>
+      <h2 style="font-family:var(--font-heading);font-size:clamp(1.7rem,3vw,2.4rem);">L'équipe qui crée vos soins</h2>
+    </div>
+
+    <div class="team__grid">
+
+      <div class="team-card reveal reveal-d1">
+        <div class="team-av" aria-hidden="true">SA</div>
+        <div class="team-info">
+          <p class="team-info__name">Sophie Arnaud</p>
+          <p class="team-info__role">Co-fondatrice &amp; Directrice R&amp;D</p>
+          <p class="team-info__bio">Biochimiste, 12 ans de recherche en dermatologie végétale. Obsédée par les actifs et les textures — si un ingrédient ne justifie pas sa présence, il ne rentre pas dans la formule.</p>
+        </div>
+      </div>
+
+      <div class="team-card reveal reveal-d2">
+        <div class="team-av" aria-hidden="true">ML</div>
+        <div class="team-info">
+          <p class="team-info__name">Marc Lefèvre</p>
+          <p class="team-info__role">Co-fondateur &amp; CEO</p>
+          <p class="team-info__bio">Entrepreneur serial, ex-L'Oréal. Croit dur comme fer que luxe et éthique ne sont pas incompatibles — et il a décidé de le prouver avec Luminae.</p>
+        </div>
+      </div>
+
+      <div class="team-card reveal reveal-d3">
+        <div class="team-av" aria-hidden="true">CM</div>
+        <div class="team-info">
+          <p class="team-info__name">Chloé Martineau</p>
+          <p class="team-info__role">Responsable Formulation</p>
+          <p class="team-info__bio">Pharmacienne de formation, créatrice de nos textures signatures. Si la crème ne fond pas parfaitement à l'application, elle recommence — autant de fois qu'il le faut.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 4 — CHIFFRES CLÉS
+═══════════════════════════════════════════════════ -->
+<section class="stats" aria-label="Chiffres clés">
+  <div class="container">
+    <div class="stats__grid">
+      <div class="reveal">
+        <span class="stat-item__num">2019</span>
+        <span class="stat-item__label">Année de fondation</span>
+      </div>
+      <div class="reveal reveal-d1">
+        <span class="stat-item__num">95%+</span>
+        <span class="stat-item__label">Ingrédients naturels</span>
+      </div>
+      <div class="reveal reveal-d2">
+        <span class="stat-item__num">12 000+</span>
+        <span class="stat-item__label">Clientes actives</span>
+      </div>
+      <div class="reveal reveal-d3">
+        <span class="stat-item__num">0</span>
+        <span class="stat-item__label">Compromis sur l'éthique</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 5 — CERTIFICATIONS
+═══════════════════════════════════════════════════ -->
+<section class="certs">
+  <div class="container">
+    <div class="certs__header reveal">
+      <p class="section-label">Nos engagements</p>
+      <h2 style="font-family:var(--font-heading);font-size:clamp(1.7rem,3vw,2.4rem);margin-bottom:var(--sp-2);">Certifications &amp; labels</h2>
+      <p style="color:var(--neutral-600);font-size:.97rem;max-width:480px;margin:0 auto;">Des certifications indépendantes qui attestent de nos engagements — pas de greenwashing, que des faits.</p>
+    </div>
+
+    <div class="certs__grid">
+      <div class="cert-badge reveal reveal-d1">
+        <div class="cert-badge__icon" aria-hidden="true">🌿</div>
+        <p class="cert-badge__name">EVE VEGAN</p>
+        <p class="cert-badge__desc">Certification vegan internationale, aucun ingrédient d'origine animale.</p>
+      </div>
+      <div class="cert-badge reveal reveal-d2">
+        <div class="cert-badge__icon" aria-hidden="true">🐰</div>
+        <p class="cert-badge__name">PETA Cruelty-Free</p>
+        <p class="cert-badge__desc">Zéro test sur les animaux à toutes les étapes de production.</p>
+      </div>
+      <div class="cert-badge reveal reveal-d3">
+        <div class="cert-badge__icon" aria-hidden="true">🏆</div>
+        <p class="cert-badge__name">Ecocert</p>
+        <p class="cert-badge__desc">Laboratoire et processus de fabrication certifiés par Ecocert.</p>
+      </div>
+      <div class="cert-badge reveal reveal-d3" style="transition-delay:.45s">
+        <div class="cert-badge__icon" aria-hidden="true">🇫🇷</div>
+        <p class="cert-badge__name">Fabriqué en France</p>
+        <p class="cert-badge__desc">100% conçu et fabriqué à Lyon dans notre laboratoire propre.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     BOTTOM CTA
+═══════════════════════════════════════════════════ -->
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-band__inner reveal">
+      <h2 class="cta-band__title">Prête à découvrir Luminae ?</h2>
+      <p class="cta-band__sub">Rejoignez les 12 000 clientes qui ont transformé leur peau avec nos soins signature.</p>
+      <a href="index.html#produits" class="cta-band__btn">
+        <i data-lucide="sparkles" width="16" height="16"></i>
+        Explorer nos soins
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════
+     CHATBOT WIDGET
+═══════════════════════════════════════════════════ -->
+<!-- CHATBOT INTEGRATION POINT — inject your JS logic here -->
+<button class="chat-btn" id="chat-btn" aria-label="Ouvrir le chat avec Luna" aria-haspopup="dialog" aria-expanded="false">
+  <i data-lucide="message-circle" width="19" height="19"></i>
+  <span class="chat-btn__label">Besoin d'aide ?</span>
+  <div class="chat-btn__dot" aria-hidden="true"></div>
+</button>
+
+<div class="chatbot-panel" id="chatbot-container" role="dialog" aria-modal="true" aria-label="Chat avec Luna" aria-hidden="true">
+  <div class="chatbot-panel__hdr">
+    <div class="chatbot-panel__hdr-l">
+      <div class="chatbot-av" aria-hidden="true">✨</div>
+      <div>
+        <p class="chatbot-panel__name">Luna · Conseillère beauté</p>
+        <p class="chatbot-panel__status">En ligne — répond en quelques secondes</p>
+      </div>
+    </div>
+    <button class="chat-close" id="chat-close" aria-label="Fermer le chat">
+      <i data-lucide="x" width="14" height="14"></i>
+    </button>
+  </div>
+  <div id="chatbot-messages" role="log" aria-live="polite">
+    <div class="chat-welcome">
+      <div class="chat-welcome__emoji">💆‍♀️</div>
+      <div class="chat-welcome__text">
+        <strong>Bonjour ! Je suis Luna.</strong>
+        Je suis là pour vous aider à trouver la routine idéale pour votre type de peau. Posez-moi toutes vos questions !
+      </div>
+    </div>
+  </div>
+  <div class="chatbot-panel__ftr">
+    <input type="text" id="chatbot-input" placeholder="Écrivez votre message…" aria-label="Votre message" autocomplete="off" />
+    <button id="chatbot-send" aria-label="Envoyer le message">
+      <i data-lucide="send" width="15" height="15"></i>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a href="index.html" class="footer__logo">Lumi<span>næ</span></a>
+        <p class="footer__tagline">La science au service de la nature.</p>
+        <nav class="footer__socials" aria-label="Réseaux sociaux">
+          <a href="#" aria-label="Instagram"><i data-lucide="instagram" width="17" height="17"></i></a>
+          <a href="#" aria-label="TikTok">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+          <a href="#" aria-label="Pinterest">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.03-2.83.19-.76 1.27-5.41 1.27-5.41s-.32-.65-.32-1.61c0-1.51.88-2.64 1.96-2.64.93 0 1.38.7 1.38 1.54 0 .94-.6 2.34-.91 3.64-.26 1.09.54 1.97 1.6 1.97 1.92 0 3.2-2.47 3.2-5.39 0-2.22-1.49-3.88-3.95-3.88-2.88 0-4.68 2.16-4.68 4.57 0 .83.24 1.41.62 1.86.18.21.2.3.13.54-.04.18-.15.61-.19.78-.06.25-.25.34-.46.25-1.32-.54-1.93-1.99-1.93-3.63 0-2.69 2.27-5.92 6.77-5.92 3.63 0 5.99 2.64 5.99 5.47 0 3.74-2.07 6.55-5.12 6.55-1.02 0-1.99-.55-2.32-1.17l-.67 2.56c-.24.93-.89 2.1-1.33 2.81.74.23 1.52.35 2.33.35 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+          </a>
+        </nav>
+      </div>
+      <div>
+        <p class="footer__col-title">Produits</p>
+        <ul class="footer__links">
+          <li><a href="index.html#produits">Sérum Vitamine C</a></li>
+          <li><a href="index.html#produits">Crème Hydratante</a></li>
+          <li><a href="index.html#produits">Huile Précieuse Nuit</a></li>
+          <li><a href="index.html#produits">Starter Kit</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">Aide</p>
+        <ul class="footer__links">
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="a-propos.html">À propos</a></li>
+          <li><a href="#">Suivi de commande</a></li>
+          <li><a href="#">Retours &amp; échanges</a></li>
+          <li><a href="#">Nous contacter</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-title">Légal</p>
+        <ul class="footer__links">
+          <li><a href="#">Mentions légales</a></li>
+          <li><a href="#">Confidentialité</a></li>
+          <li><a href="#">CGV</a></li>
+          <li><a href="#">Gestion des cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">© 2025 Luminae · Fait avec ❤️ en France</div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+  lucide.createIcons();
+
+  /* ── Navbar scroll ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  /* ── Active nav link ── */
+  const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.navbar__links a, .navbar__drawer a').forEach(link => {
+    const linkFile = (link.getAttribute('href') || '').split('#')[0].split('/').pop();
+    if (linkFile && linkFile === currentFile) link.classList.add('nav-active');
+  });
+
+  /* ── Hamburger / drawer ── */
+  const burger = document.getElementById('burger');
+  const drawer = document.getElementById('drawer');
+  function openDrawer()  { burger.classList.add('open'); drawer.classList.add('open'); burger.setAttribute('aria-expanded','true'); drawer.setAttribute('aria-hidden','false'); document.body.style.overflow = 'hidden'; }
+  function closeDrawer() { burger.classList.remove('open'); drawer.classList.remove('open'); burger.setAttribute('aria-expanded','false'); drawer.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
+  burger.addEventListener('click', () => drawer.classList.contains('open') ? closeDrawer() : openDrawer());
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDrawer(); closeChat(); } });
+
+  /* ── Scroll reveal ── */
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  /* ── Chatbot widget ── */
+  const chatBtn      = document.getElementById('chat-btn');
+  const chatPanel    = document.getElementById('chatbot-container');
+  const chatClose    = document.getElementById('chat-close');
+  const chatInput    = document.getElementById('chatbot-input');
+  const chatSend     = document.getElementById('chatbot-send');
+  const chatMessages = document.getElementById('chatbot-messages');
+
+  function openChat() {
+    chatPanel.classList.add('open'); chatPanel.setAttribute('aria-hidden','false');
+    chatBtn.setAttribute('aria-expanded','true');
+    setTimeout(() => chatInput.focus(), 260);
+  }
+  function closeChat() {
+    chatPanel.classList.remove('open'); chatPanel.setAttribute('aria-hidden','true');
+    chatBtn.setAttribute('aria-expanded','false');
+  }
+  chatBtn.addEventListener('click', () => chatPanel.classList.contains('open') ? closeChat() : openChat());
+  chatClose.addEventListener('click', closeChat);
+
+  function sendMessage() {
+    const text = chatInput.value.trim();
+    if (!text) return;
+    const bubble = document.createElement('div');
+    bubble.setAttribute('role','listitem');
+    Object.assign(bubble.style, { alignSelf:'flex-end', background:'var(--brand)', color:'white', padding:'10px 14px', borderRadius:'18px 18px 4px 18px', fontSize:'0.875rem', maxWidth:'80%', lineHeight:'1.5', wordBreak:'break-word' });
+    bubble.textContent = text;
+    chatMessages.appendChild(bubble);
+    chatInput.value = '';
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    // CHATBOT INTEGRATION POINT — inject AI response logic below this line
+  }
+  chatSend.addEventListener('click', sendMessage);
+  chatInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
+</script>
+
+</body>
+</html>
